@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElysIndex dApp</title>
+<meta name="description" content="Live vault, treasury and airdrops of the ElysIndex index token on Elysium.">
+<meta name="theme-color" content="#0b1d22">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ElysIndex">
+<meta property="og:title" content="ElysIndex dApp: live vault, treasury and airdrops">
+<meta property="og:description" content="Watch the ElysIndex vault live: next distribution, fees collected, every buy and every airdrop on-chain.">
+<meta property="og:url" content="https://elysindex.com/app">
+<meta property="og:image" content="https://elysindex.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ElysIndex: the best of Elysium, bought and airdropped to every holder.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ElysIndexs">
+<meta name="twitter:title" content="ElysIndex dApp: live vault, treasury and airdrops">
+<meta name="twitter:description" content="Watch the ElysIndex vault live: next distribution, fees collected, every buy and every airdrop on-chain.">
+<meta name="twitter:image" content="https://elysindex.com/assets/og.png">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: oklch(0.194 0.028 212);
+    --bg-2: oklch(0.172 0.025 212);
+    --card: oklch(0.214 0.031 213);
+    --line: oklch(0.267 0.034 214);
+    --line-2: oklch(0.34 0.042 216);
+    --text: oklch(0.985 0 0);
+    --text-2: oklch(0.82 0.02 213);
+    --muted: oklch(0.64 0.03 214);
+    --cyan: oklch(0.727 0.121 222);
+    --cyan-dim: oklch(0.727 0.121 222 / .12);
+    --green: oklch(0.70 0.11 177);
+    --green-dim: oklch(0.625 0.093 177 / .16);
+    --rose: oklch(0.75 0.13 25);
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --lattice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='70'%3E%3Cpath d='M0 35 60 0 120 35M0 70 60 35 120 70M60 0v35M0 35v35M120 35v35' fill='none' stroke='%23ffffff' stroke-opacity='.045' stroke-width='1.2'/%3E%3C/svg%3E");
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg) var(--lattice); color: var(--text); font: 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: var(--cyan); color: #04161b; }
+  a { color: inherit; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  .k { font: 500 11px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .mono { font-family: var(--mono); }
+  .num { font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 500 14px/1 var(--sans); padding: 11px 16px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--card); color: var(--text); cursor: pointer; text-decoration: none; transition: background .15s; white-space: nowrap; }
+  .btn:hover { background: var(--line); }
+  .btn.primary { background: var(--text); border-color: var(--text); color: var(--bg); }
+  .btn.primary:hover { background: oklch(0.9 0.02 213); }
+  .btn:disabled { opacity: .55; cursor: not-allowed; }
+  .live-dot { display: inline-flex; align-items: center; gap: 7px; }
+  .live-dot::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.6s infinite; flex: none; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 oklch(0.70 0.11 177 / .55); } 100% { box-shadow: 0 0 0 8px oklch(0.70 0.11 177 / 0); } }
+  #banner { display: none; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; max-width: 520px; margin: 0 auto; padding: 10px 14px; border-radius: 10px; background: oklch(0.3 0.08 25); font-size: 14px; text-align: center; }
+  #banner.show { display: block; }
+
+  /* Top bar */
+  header { position: sticky; top: 0; z-index: 40; background: oklch(0.194 0.028 212 / .85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 22px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 32px; height: 32px; border-radius: 8px; }
+  .brand b { font-weight: 600; font-size: 19px; letter-spacing: -.02em; }
+  .tag { font: 500 11px var(--mono); color: var(--cyan); border: 1px solid oklch(0.727 0.121 222 / .4); padding: 2px 7px; border-radius: 6px; }
+  .tabs { display: flex; gap: 2px; margin-left: 10px; }
+  .tabs a { text-decoration: none; color: var(--text-2); padding: 8px 12px; border-radius: 8px; font-size: 14px; }
+  .tabs a:hover { background: var(--line); color: var(--text); }
+  .bar-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .net { font: 500 12px var(--mono); color: var(--text-2); border: 1px solid var(--line-2); padding: 7px 10px; border-radius: 8px; }
+
+  main.wrap { padding-top: 32px; padding-bottom: 96px; }
+  .grid-top { display: grid; grid-template-columns: 420px 1fr; gap: 16px; }
+
+  /* Vault */
+  .vault { position: relative; overflow: hidden; padding: 24px; display: flex; flex-direction: column; gap: 18px;
+    background: radial-gradient(420px 300px at 50% 30%, oklch(0.727 0.121 222 / .14), transparent 70%), var(--card); }
+  .vault-head { display: flex; justify-content: space-between; align-items: center; }
+  .vault-head h2 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .phase { font: 500 12px var(--mono); color: var(--muted); display: inline-flex; align-items: center; gap: 7px; }
+  .phase .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+  .phase.live { color: var(--green); }
+  .phase.live .dot { background: var(--green); animation: pulse 1.6s infinite; }
+  .ring-wrap { position: relative; width: 260px; height: 260px; margin: 4px auto 0; }
+  .ring-wrap::before { content: ""; position: absolute; inset: 14%; border-radius: 50%; box-shadow: 0 0 60px oklch(0.727 0.121 222 / .25), inset 0 0 40px oklch(0.727 0.121 222 / .12); }
+  .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--line); stroke-width: 10; }
+  .ring-fg { fill: none; stroke: url(#ringGrad); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+  .ring-ticks { fill: none; stroke: var(--line-2); stroke-width: 2; stroke-dasharray: 1 13.4; }
+  .ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; }
+  .ring-center .clock { font: 500 54px/1 var(--mono); letter-spacing: -.06em; text-shadow: 0 0 30px oklch(0.727 0.121 222 / .4); }
+  .ring-center small { font: 12px/1.5 var(--mono); color: var(--muted); white-space: pre-line; max-width: 150px; margin: 2px auto 0; }
+  .floor-note { text-align: center; font: 12px var(--mono); color: var(--muted); margin-top: -6px; }
+  .stepper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .stepper span { text-align: center; font: 500 12px var(--mono); padding: 9px 4px; border-radius: 8px; border: 1px solid var(--line-2); color: var(--muted); }
+  .stepper span.on { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); }
+  .stepper span.done { color: var(--green); border-color: oklch(0.70 0.11 177 / .45); }
+  .waiting { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); }
+  .waiting img { width: 36px; height: 36px; border-radius: 9px; }
+  .waiting .v { font: 500 20px var(--mono); letter-spacing: -.03em; }
+  .waiting .r { margin-left: auto; text-align: right; font-size: 12px; color: var(--muted); }
+  .waiting .r b { display: block; font: 500 15px var(--mono); color: var(--cyan); }
+
+  /* Stats */
+  .right { display: grid; gap: 16px; align-content: start; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat .v { font-size: clamp(34px, 3.6vw, 48px) !important; }
+  .bt-title { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 10px; }
+  .bytoken { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .bt { padding: 14px 16px; }
+  .bt-head { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 14px; }
+  .bt-head .mk { width: 24px; height: 24px; }
+  .bt-v { font: 500 24px/1.1 var(--sans); letter-spacing: -.03em; margin: 10px 0 3px; }
+  .bt .s { font-size: 12px; color: var(--muted); }
+  .stat { padding: 18px 20px; min-width: 0; }
+  .stat .v { font: 500 clamp(26px, 2.6vw, 34px)/1.1 var(--sans); letter-spacing: -.04em; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat .s { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .stat.hot { border-color: oklch(0.727 0.121 222 / .4); background: linear-gradient(180deg, oklch(0.727 0.121 222 / .09), transparent), var(--card); }
+
+
+  /* Token marks */
+  .mk { position: relative; flex: none; display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; color: #04161b; font: 600 11px var(--mono); width: 32px; height: 32px; }
+  .mk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--bg-2); }
+  .mk.lg { width: 48px; height: 48px; font-size: 14px; }
+  .mk.sm { width: 22px; height: 22px; font-size: 8px; }
+
+  /* Sections */
+  section { margin-top: 44px; scroll-margin-top: 80px; }
+  .sec-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .sec-title h2 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -.035em; }
+  .sec-title p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* Wallet */
+  .wallet { padding: 22px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 22px; }
+  .wallet form { display: flex; gap: 8px; margin-top: 14px; }
+  .input { flex: 1; min-width: 0; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--text); border-radius: 8px; padding: 11px 13px; font: 14px var(--mono); outline: none; }
+  .input:focus { border-color: var(--cyan); }
+  .w-empty { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+  .w-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .w-grid > div { padding: 14px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); min-width: 0; }
+  .w-grid .v { font: 500 22px/1.1 var(--mono); letter-spacing: -.03em; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pill { display: inline-block; font: 500 12px var(--mono); padding: 5px 10px; border-radius: 6px; }
+  .pill.ok { background: var(--green-dim); color: var(--green); }
+  .pill.no { background: oklch(0.6 0.15 25 / .15); color: var(--rose); }
+  .pill.wait { background: var(--cyan-dim); color: var(--cyan); }
+  .rows { margin-top: 12px; }
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .row:last-child { border-bottom: none; }
+  .row b { font-weight: 600; }
+  .row .r { margin-left: auto; font: 500 14px var(--mono); }
+  .err { color: var(--rose); font-size: 13px; margin-top: 10px; }
+
+  /* Index cards */
+  .tokens { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .tok { padding: 20px; display: grid; gap: 14px; transition: border-color .2s, transform .2s; }
+  .tok:hover { border-color: var(--line-2); transform: translateY(-2px); }
+  .tok-head { display: flex; align-items: center; gap: 12px; }
+  .tok-head b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .tok-head span { font: 12px var(--mono); color: var(--muted); }
+  .tok-head .w { margin-left: auto; font: 500 22px var(--mono); color: var(--cyan); }
+  .wbar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .wbar span { display: block; height: 100%; border-radius: 3px; }
+  .tok-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tok-stats div { padding: 10px; border-radius: 8px; background: var(--bg-2); border: 1px solid var(--line); min-width: 0; }
+  .tok-stats b { display: block; font: 500 15px var(--mono); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tok-links { display: flex; gap: 14px; font: 12px var(--mono); }
+  .tok-links a { color: var(--cyan); text-decoration: none; }
+  .tok-links a:hover { text-decoration: underline; }
+
+  /* Activity */
+  .act-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; align-items: start; }
+  .chart { padding: 20px; }
+  .chart svg { width: 100%; height: 220px; display: block; margin-top: 12px; }
+  .chart .bar-r { fill: url(#barGrad); }
+  .chart .bar-r:hover { fill: var(--cyan); }
+  .chart .axis { stroke: var(--line); }
+  .chart text { fill: var(--muted); font: 10px var(--mono); }
+  .feed { max-height: 560px; overflow: auto; }
+  .feed-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--card); z-index: 1; }
+  .feed-head h3 { margin: 0; font-size: 16px; font-weight: 600; }
+  .ev { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  .ev:last-child { border-bottom: none; }
+  .ev.new { animation: flash 2s ease-out; }
+  @keyframes flash { from { background: oklch(0.727 0.121 222 / .16); } to { background: transparent; } }
+  .ev .ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--cyan); }
+  .ev .ic svg { width: 16px; height: 16px; }
+  .ev .ic.claim { color: var(--green); }
+  .ev .ic .mk { width: 34px; height: 34px; border-radius: 9px; }
+  .ev .t { min-width: 0; font-size: 14px; }
+  .ev .t b { font-weight: 600; }
+  .ev .t small { display: block; font: 12px var(--mono); color: var(--muted); margin-top: 2px; }
+  .ev .t a { color: var(--cyan); text-decoration: none; }
+  .ev .t a:hover { text-decoration: underline; }
+  .ev .when { font: 12px var(--mono); color: var(--muted); text-align: right; white-space: nowrap; }
+  .empty { padding: 30px 20px; text-align: center; color: var(--muted); }
+
+  .rd { display: grid; grid-template-columns: 170px 1fr auto; gap: 16px; align-items: start; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .rd:last-child { border-bottom: none; }
+  .rd .when b { display: block; font-weight: 600; }
+  .rd .when small { font: 12px var(--mono); color: var(--muted); }
+  .rd .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rd .chip { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--mono); padding: 4px 10px 4px 4px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--bg-2); }
+  .rd .chip .mk { width: 18px; height: 18px; }
+  .rd .chip.failed { color: var(--rose); border-color: oklch(0.6 0.15 25 / .4); }
+  .rd .none { font-size: 13px; color: var(--muted); }
+  .rd .txs { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 10px; font: 12px var(--mono); color: var(--muted); }
+  .rd .txs a { color: var(--cyan); text-decoration: none; }
+  .rd .meta { text-align: right; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .rd .meta b { color: var(--text); font: 500 14px var(--mono); }
+  .rd .proof { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 12px; font: 12px var(--mono); color: var(--muted); }
+  .rd .proof a { color: var(--cyan); text-decoration: none; white-space: nowrap; }
+  @media (max-width: 640px) { .rd { grid-template-columns: 1fr auto; } .rd .body { grid-column: 1 / -1; grid-row: 2; } }
+  footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  @media (max-width: 1100px) {
+    .grid-top { grid-template-columns: 1fr; }
+    .act-grid, .wallet { grid-template-columns: 1fr; }
+    .tabs { display: none; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .net { display: none; }
+    .ring-wrap { width: 230px; height: 230px; }
+    .ring-center .clock { font-size: 46px; }
+    .w-grid { grid-template-columns: 1fr 1fr; }
+    .wallet form { flex-direction: column; }
+    .ev { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+<div id="banner" role="status">Can't reach the index right now. Retrying…</div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Back to the ElysIndex site"><img src="/assets/logo.svg" alt=""><b data-bind="name">ElysIndex</b><span class="tag">dApp</span></a>
+    <nav class="tabs">
+      <a href="#vault">Vault</a><a href="#wallet">My wallet</a><a href="#index">Index</a><a href="#rounds">Rounds</a><a href="#activity">Activity</a>
+    </nav>
+    <div class="bar-right">
+      <a class="net" id="caLink" href="https://boxa.club/explorer/address/0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38" target="_blank" rel="noopener noreferrer" title="0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38">0x836e…9c38</a>
+      <span class="net live-dot">Elysium · <span id="chainId">99901</span></span>
+      <a class="btn" href="https://x.com/ElysIndexs" target="_blank" rel="noopener noreferrer">Twitter</a>
+      <button class="btn primary" id="connectBtn" type="button">Connect wallet</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid-top" id="vault">
+    <div class="card vault">
+      <div class="vault-head"><h2>The vault</h2><span class="phase" id="phase"><span class="dot"></span><span id="phaseText">Idle</span></span></div>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="oklch(0.70 0.11 177)"/><stop offset="1" stop-color="oklch(0.727 0.121 222)"/></linearGradient></defs>
+          <circle class="ring-ticks" cx="60" cy="60" r="56"/>
+          <circle class="ring-bg" cx="60" cy="60" r="48"/>
+          <circle class="ring-fg" id="ring" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
+        </svg>
+        <div class="ring-center"><span class="k">Next buy &amp; airdrop</span><span class="clock num" id="clock">--:--</span><small id="nextAt">—</small></div>
+      </div>
+      <div class="floor-note" id="floorNote"></div>
+      <div class="stepper" id="stepper"><span data-p="claiming">Claim</span><span data-p="buying">Buy</span><span data-p="distributing">Airdrop</span></div>
+      <div class="waiting" id="vaultRow" hidden>
+        <img src="/assets/logo.svg" alt="">
+        <div><span class="k">In the vault</span><div class="v num" id="vaultBal">—</div></div>
+        <div class="r"><b id="vaultUsd"></b><span id="vaultSub"></span></div>
+      </div>
+      <div class="waiting">
+        <img src="/assets/tokens/boxa.png" alt="BOXA">
+        <div><span class="k">Waiting at BOXA</span><div class="v num" id="waiting">—</div></div>
+        <div class="r"><b id="waitingUsd"></b><span class="live-dot" id="waitingAt">live</span></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="stats">
+        <div class="card stat"><span class="k">Airdrops paid</span><div class="v num" id="sRounds">—</div><div class="s" id="sRoundsSub">—</div></div>
+        <div class="card stat"><span class="k">Holders paid last round</span><div class="v num" id="sHolders">—</div><div class="s" id="sHoldersSub">—</div></div>
+        <div class="card stat"><span class="k">Fees collected</span><div class="v num" id="sFees">—</div><div class="s" id="sFeesSub">—</div></div>
+        <div class="card stat hot"><span class="k">Being airdropped now</span><div class="v num" id="sNow">—</div><div class="s" id="sNowSub">—</div></div>
+      </div>
+      <div>
+        <div class="bt-title"><span class="k">Airdropped so far, by token</span><span class="muted" style="font-size:12px">tokens sent to holders</span></div>
+        <div class="bytoken" id="byToken"></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="wallet">
+    <div class="sec-title"><h2>My wallet</h2><p>Your balance, whether you're in the next airdrop, and everything you've received.</p></div>
+    <div class="card wallet">
+      <div>
+        <span class="k">Wallet</span>
+        <div class="mono" style="font-size:16px;margin-top:8px;word-break:break-all" id="wAddr">Not connected</div>
+        <form id="walletForm" autocomplete="off">
+          <label for="walletInput" style="position:absolute;left:-9999px">Wallet address</label>
+          <input class="input" id="walletInput" placeholder="0x… or connect your wallet" spellcheck="false" maxlength="42">
+          <button class="btn" type="submit" id="walletBtn">Check</button>
+        </form>
+        <div class="err" id="walletErr" hidden></div>
+        <p class="w-empty" id="wNote">Connect a wallet or paste any address. Read-only: nothing is ever signed.</p>
+      </div>
+      <div>
+        <div class="w-grid">
+          <div><span class="k">Balance</span><div class="v num" id="wBal">—</div></div>
+          <div><span class="k">Next airdrop</span><div class="v" id="wStatus">—</div></div>
+          <div><span class="k">Your share</span><div class="v num" id="wShare">—</div></div>
+          <div><span class="k">Est. next airdrop</span><div class="v num" id="wEst">—</div></div>
+        </div>
+        <div class="rows" id="wReceived"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="index">
+    <div class="sec-title"><h2>The index</h2><p>The strongest tokens on Elysium. Each round's HYPE is split by these weights.</p></div>
+    <div class="tokens" id="tokens"><div class="card empty">Loading…</div></div>
+  </section>
+
+  <section id="rounds">
+    <div class="sec-title"><h2>Round history</h2><p id="roundsCount">Every round, newest first.</p></div>
+    <div class="card"><div id="roundList"><div class="empty">No rounds yet.</div></div></div>
+  </section>
+  <section id="activity">
+    <div class="sec-title"><h2>Live activity</h2><p>Every claim, buy and airdrop, newest first, with tx links.</p></div>
+    <div class="act-grid">
+      <div class="card chart">
+        <span class="k">Fees collected per round</span>
+        <svg id="chart" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="HYPE claimed per round">
+          <defs><linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="oklch(0.727 0.121 222)"/><stop offset="1" stop-color="oklch(0.727 0.121 222 / .25)"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div class="card feed">
+        <div class="feed-head"><h3>Activity</h3><span class="live-dot mono muted" style="font-size:12px" id="feedCount">live</span></div>
+        <div id="feed"><div class="empty">No activity yet. The first round lands after launch.</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap"><span><a href="/" style="text-decoration:none">← <span data-bind="name">ElysIndex</span> site</a> · <a href="https://x.com/ElysIndexs" target="_blank" rel="noopener noreferrer">@ElysIndexs</a> · Airdrops are sent by an automated bot. Not financial advice.</span><span class="mono" id="updated"></span></div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+  const TOKEN = "0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38";
+  const POLL_MS = 5000;
+  const DECIMALS = 18;
+  const COLORS = ["#4fc3e8", "#5fd4b0", "#a9b8ff", "#f2c46d", "#ff9e80", "#c39bff", "#9be38f", "#dfe6e4"];
+  const LOGO_RE = /^(https:\/\/[^\s"'<>()\\]+|\/logos\/[0-9a-f]{16}\.(png|jpg|webp|gif)|\/assets\/tokens\/[a-z0-9-]{1,40}\.(png|jpg|webp))$/;
+  const $ = (id) => document.getElementById(id);
+  let state = null, wallet = null, seen = null;
+
+  // ---------- helpers ----------
+  function el(tag, opts, children) {
+    const n = document.createElement(tag);
+    if (opts) for (const [k, v] of Object.entries(opts)) {
+      if (v == null) continue;
+      if (k === "text") n.textContent = v; else if (k === "class") n.className = v; else n.setAttribute(k, v);
+    }
+    if (children) for (const c of children) if (c != null) n.append(c);
+    return n;
+  }
+  const str = (v) => (v == null ? "" : String(v));
+  const isAddr = (a) => typeof a === "string" && /^0x[0-9a-fA-F]{40}$/.test(a);
+  const isHash = (h) => typeof h === "string" && /^0x[0-9a-fA-F]{64}$/.test(h);
+  const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : str(a));
+  const toBig = (v) => (typeof v === "string" && /^\d+$/.test(v) ? BigInt(v) : typeof v === "number" && Number.isSafeInteger(v) ? BigInt(v) : null);
+  function fmtUnits(raw) {
+    const v = toBig(raw);
+    if (v === null) return "—";
+    const base = 10n ** BigInt(DECIMALS), whole = v / base;
+    const scaled = (unit, sfx) => { const t = (v * 10n) / (base * unit); return (t % 10n === 0n ? String(t / 10n) : String(t / 10n) + "." + String(t % 10n)) + sfx; };
+    if (whole >= 1000000000n) return scaled(1000000000n, "B");
+    if (whole >= 1000000n) return scaled(1000000n, "M");
+    if (whole >= 1000n) return scaled(1000n, "K");
+    if (v === 0n) return "0";
+    const frac = ((v % base) * 10000n) / base;
+    if (whole === 0n && frac === 0n) return "<0.0001";
+    const fs = frac.toString().padStart(4, "0").replace(/0+$/, "");
+    return whole.toString() + (fs ? "." + fs : "");
+  }
+  const fmtInt = (n) => { const v = toBig(typeof n === "number" ? Math.floor(n) : n); return v === null ? "—" : v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
+  const fmtPct = (bps) => { const p = Number(bps) / 100; return Number.isFinite(p) ? (Number.isInteger(p) ? p : p.toFixed(2)) + "%" : "—"; };
+  const parseDate = (iso) => { const d = typeof iso === "string" ? new Date(iso) : null; return d && !isNaN(d) ? d : null; };
+  const fmtUtc = (d) => d.toISOString().slice(11, 16) + " UTC";
+  function fmtAgo(d) {
+    const s = Math.round((Date.now() - d.getTime()) / 1000);
+    if (s < 45) return "just now"; if (s < 3600) return Math.round(s / 60) + "m ago"; if (s < 86400) return Math.round(s / 3600) + "h ago"; return Math.round(s / 86400) + "d ago";
+  }
+  function fmtDuration(ms) {
+    const m = Math.round(Number(ms) / 60000);
+    if (!(m > 0)) return "";
+    if (m % 60 === 0) return m === 60 ? "hour" : m / 60 + " hours";
+    return m + " min";
+  }
+  const hype = (wei) => { const b = toBig(wei); return b === null ? null : Number(b) / 1e18; };
+  function usd(wei) {
+    const p = Number(state && state.treasury && state.treasury.hypeUsd), h = hype(wei);
+    if (!(p > 0) || h === null) return "";
+    const v = h * p;
+    return "$" + (v >= 1000 ? Math.round(v).toLocaleString("en-US") : v.toFixed(2));
+  }
+  const money = (wei) => usd(wei) || fmtUnits(wei) + " HYPE";
+  const basket = () => (state && Array.isArray(state.basket) ? state.basket : []);
+  const symbol = () => (state && state.symbol) || "ELYSX";
+  const colorIdx = (sym) => { const i = basket().findIndex((b) => b && b.symbol === sym); return i >= 0 ? i : basket().length; };
+  function explorer() { const e = state && state.explorer; return typeof e === "string" && /^https?:\/\/[^\s"'<>]+$/i.test(e) ? e.replace(/\/+$/, "") : ""; }
+  // BOXA's explorer takes the hash or address as a query (boxa.club/explorer/tx?hash=…); others use /tx/<hash>.
+  const boxaExplorer = () => /\/\/(www\.)?boxa\.club\/explorer$/i.test(explorer());
+  const txUrl = (h) => (boxaExplorer() ? explorer() + "/tx?hash=" + h : explorer() + "/tx/" + h);
+  const addrUrl = (a) => (boxaExplorer() ? explorer() + "/address?address=" + a : explorer() + "/address/" + a);
+  const txLink = (h, label) => (isHash(h) && explorer() ? el("a", { href: txUrl(h), target: "_blank", rel: "noopener noreferrer", text: label ? label + " ↗" : short(h) }) : el("span", { text: isHash(h) ? (label ? label + " " : "") + short(h) : "" }));
+  function mark(sym, cls) {
+    const b = [...basket(), ...(Array.isArray(state && state.pastBasket) ? state.pastBasket : [])].find((x) => x && x.symbol === sym);
+    const n = el("span", { class: "mk " + (cls || ""), style: "background:" + COLORS[colorIdx(sym) % COLORS.length], text: (str(sym).replace(/[^A-Za-z0-9]/g, "").slice(0, 2) || "?").toUpperCase(), "aria-hidden": "true" });
+    if (b && typeof b.logo === "string" && LOGO_RE.test(b.logo)) {
+      const img = el("img", { src: b.logo, alt: "", referrerpolicy: "no-referrer" });
+      img.addEventListener("error", () => img.remove());
+      n.append(img);
+    }
+    return n;
+  }
+  const ICON = {
+    claim: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>',
+    drop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>',
+  };
+  const icon = (name, cls) => { const n = el("div", { class: "ic " + (cls || "") }); n.innerHTML = ICON[name]; return n; };
+
+  // ---------- render ----------
+  function renderVault() {
+    const s = state, cur = s.current, phase = cur && cur.phase;
+    $("phase").classList.toggle("live", !!phase);
+    $("phaseText").textContent = phase ? "Live · " + ({ claiming: "claiming", buying: "buying", distributing: "airdropping" }[phase] || phase) : s.token ? "Idle" : "Starts after launch";
+    const order = ["claiming", "buying", "distributing"], idx = order.indexOf(phase);
+    document.querySelectorAll("#stepper span").forEach((n, i) => (n.className = idx < 0 ? "" : i === idx ? "on" : i < idx ? "done" : ""));
+    const t = s.treasury || {};
+    $("waiting").textContent = t.waitingWei == null ? "—" : fmtUnits(t.waitingWei) + " HYPE";
+    $("waitingUsd").textContent = t.waitingWei == null ? "" : usd(t.waitingWei);
+    const readAt = parseDate(t.readAt);
+    // The round starts once fees waiting + what is in the vault reach the minimum: show both, so a wait is explained.
+    const floor = toBig(s.settings && s.settings.roundFloorWei);
+    $("waitingAt").textContent = t.waitingWei == null ? "live after launch" : "live · " + (readAt ? fmtUtc(readAt) : "");
+    $("floorNote").textContent = floor == null ? "" : "Next round starts at " + fmtUnits(String(floor)) + " HYPE (fees waiting + vault)" +
+      (t.waitingWei != null ? " · now " + fmtUnits(String((toBig(t.waitingWei) ?? 0n) + (toBig(t.vault && t.vault.balance) ?? 0n))) + " HYPE" : "");
+    const v = t.vault;
+    $("vaultRow").hidden = !v;
+    if (v) {
+      $("vaultBal").textContent = fmtUnits(v.balance) + " HYPE";
+      $("vaultUsd").textContent = usd(v.balance);
+      const sub = $("vaultSub");
+      sub.replaceChildren(document.createTextNode("fees " + fmtUnits(v.tax) + " · deposits " + fmtUnits(v.deposits) + " · "),
+        explorer() ? el("a", { href: addrUrl(v.address), target: "_blank", rel: "noopener noreferrer", text: short(v.address) + " ↗", style: "color:var(--cyan);text-decoration:none" }) : el("span", { text: short(v.address) }));
+    }
+  }
+
+  function renderStats() {
+    const s = state, tot = s.totals || {}, r = s.rounds || {}, settings = s.settings || {};
+    $("sRounds").textContent = fmtInt(r.paid ?? 0);
+    $("sRoundsSub").textContent = fmtInt(tot.transfers ?? 0) + " transfers · " + fmtInt(tot.holdersPaid ?? 0) + " holders";
+    $("sHolders").textContent = fmtInt((s.lastRound && s.lastRound.holders) ?? 0);
+    $("sHoldersSub").textContent = "min. " + supplyPct(settings.eligibleMinRaw) + " of supply" + (Number(settings.holdMinutes) > 0 ? ", held " + Number(settings.holdMinutes) + " min" : "");
+    // With the vault, fees come straight from the contract (totalTax), so anyone can check them on chain.
+    const v = s.treasury && s.treasury.vault;
+    $("sFees").textContent = money(v ? v.tax : tot.claimedWei ?? "0");
+    $("sFeesSub").textContent = fmtInt(tot.claims ?? 0) + (Number(tot.claims) === 1 ? " claim" : " claims") + " from BOXA" + (v ? " · read from the vault contract" : "");
+    const cur = s.current, nowWei = cur ? (cur.spentWei !== "0" ? cur.spentWei : cur.claimedWei) : "0";
+    $("sNow").textContent = money(nowWei);
+    $("sNowSub").textContent = "bought, on its way to holders";
+    const per = tot.perToken || {}, txs = tot.transfersBySymbol || {};
+    const syms = [...new Set([...basket().map((b) => b.symbol), ...Object.keys(per)])];
+    $("byToken").replaceChildren(...syms.map((k) => el("div", { class: "card bt" }, [
+      el("div", { class: "bt-head" }, [mark(k), el("span", { text: k })]),
+      el("div", { class: "bt-v num", text: fmtUnits(per[k] ?? "0") }),
+      el("div", { class: "s", text: fmtInt(txs[k] ?? 0) + " transfers" }),
+    ])));
+  }
+
+  // Share of the fixed supply, e.g. "0.01%".
+  function supplyPct(raw) {
+    const v = toBig(raw), total = toBig(state && state.totalSupplyRaw);
+    if (v === null || !total) return "—";
+    const p = Number((v * 1000000n) / total) / 10000;
+    return (p < 0.01 ? p.toFixed(4) : p.toFixed(2)).replace(/0+$/, "").replace(/\.$/, "") + "%";
+  }
+
+  function renderTokens() {
+    const tot = state.totals || {}, per = tot.perToken || {}, spent = tot.spentBySymbol || {}, txs = tot.transfersBySymbol || {};
+    const box = $("tokens");
+    box.replaceChildren();
+    if (!basket().length) { box.append(el("div", { class: "card empty", text: "The index hasn't been set yet." })); return; }
+    basket().forEach((b, i) => {
+      const color = COLORS[i % COLORS.length];
+      const links = el("div", { class: "tok-links" });
+      if (isAddr(b.token)) {
+        links.append(el("a", { href: "https://boxa.club/asset?address=" + b.token, target: "_blank", rel: "noopener noreferrer", text: "Trade on BOXA ↗" }));
+        if (explorer()) links.append(el("a", { href: addrUrl(b.token), target: "_blank", rel: "noopener noreferrer", text: "Explorer ↗" }));
+      }
+      box.append(el("div", { class: "card tok" }, [
+        el("div", { class: "tok-head" }, [mark(b.symbol, "lg"), el("div", null, [el("b", { text: b.symbol }), el("span", { text: short(b.token) + " · " + (b.venue === "boxa-v4" ? "BOXA v4" : "Uniswap v3") })]), el("span", { class: "w", text: fmtPct(b.weightBps) })]),
+        el("div", { class: "wbar" }, [el("span", { style: "width:" + Math.min(Number(b.weightBps) / 100, 100) + "%;background:" + color })]),
+        el("div", { class: "tok-stats" }, [
+          el("div", null, [el("span", { class: "k", text: "Spent" }), el("b", { text: money(spent[b.symbol] ?? "0") })]),
+          el("div", null, [el("span", { class: "k", text: "Airdropped" }), el("b", { text: fmtUnits(per[b.symbol] ?? "0") })]),
+          el("div", null, [el("span", { class: "k", text: "Transfers" }), el("b", { text: fmtInt(txs[b.symbol] ?? 0) })]),
+        ]),
+        links,
+      ]));
+    });
+  }
+
+  function renderChart() {
+    const svg = $("chart"), NS = "http://www.w3.org/2000/svg";
+    [...svg.querySelectorAll("rect,text,line")].forEach((n) => n.remove());
+    const rounds = (state.history || []).slice(0, 30).reverse();
+    const vals = rounds.map((r) => hype(r.claimedWei) || 0);
+    const max = Math.max(...vals, 0);
+    const W = 600, H = 200, pad = 4;
+    const axis = document.createElementNS(NS, "line");
+    Object.entries({ x1: 0, x2: W, y1: H, y2: H, class: "axis" }).forEach(([k, v]) => axis.setAttribute(k, v));
+    svg.append(axis);
+    if (!rounds.length || !max) {
+      const t = document.createElementNS(NS, "text"); t.setAttribute("x", W / 2); t.setAttribute("y", H / 2); t.setAttribute("text-anchor", "middle"); t.textContent = "Bars appear after the first rounds";
+      svg.append(t); return;
+    }
+    const bw = W / rounds.length;
+    rounds.forEach((r, i) => {
+      const h = Math.max((vals[i] / max) * (H - 24), 2);
+      const rect = document.createElementNS(NS, "rect");
+      Object.entries({ x: i * bw + pad / 2, y: H - h, width: Math.max(bw - pad, 2), height: h, rx: 3, class: "bar-r" }).forEach(([k, v]) => rect.setAttribute(k, v));
+      const tip = document.createElementNS(NS, "title");
+      const d = parseDate(r.finishedAt);
+      tip.textContent = vals[i].toFixed(4) + " HYPE" + (d ? " · " + fmtUtc(d) : "");
+      rect.append(tip);
+      svg.append(rect);
+    });
+    const t = document.createElementNS(NS, "text"); t.setAttribute("x", 4); t.setAttribute("y", 12); t.textContent = "max " + max.toFixed(3) + " HYPE";
+    svg.append(t);
+  }
+
+  function renderFeed() {
+    const events = [];
+    // The round in progress first: each buy as it is sent and lands, before the round finishes.
+    const cur = state.current;
+    if (cur) (cur.buys || []).filter((b) => b.status === "done" || b.status === "sent").forEach((b, i) => events.push({ key: "cur" + cur.id + b.symbol + b.status, d: new Date(), live: true, node: [mark(b.symbol), el("div", { class: "t" }, [
+      el("b", { text: b.status === "done" ? "Bought " + fmtUnits(b.boughtRaw) + " " + b.symbol : "Buying " + b.symbol + "…" }), document.createTextNode(" for " + fmtUnits(b.hypeWei) + " HYPE"),
+      el("small", null, [txLink(b.tx), document.createTextNode(b.status === "sent" ? " · pending" : usd(b.hypeWei) ? " " + usd(b.hypeWei) : "")])])] }));
+    (state.history || []).forEach((r) => {
+      const d = parseDate(r.finishedAt);
+      (r.airdrops || []).forEach((a) => events.push({ key: "a" + a.tx, d, node: [mark(a.symbol), el("div", { class: "t" }, [
+        el("b", { text: "Airdropped " + fmtUnits(a.raw) + " " + a.symbol }), document.createTextNode(" to " + fmtInt(a.recipients) + " holders"),
+        el("small", null, [txLink(a.tx)])])] }));
+      (r.buys || []).filter((b) => b.status === "done").forEach((b, i) => events.push({ key: "b" + r.id + i, d, node: [mark(b.symbol), el("div", { class: "t" }, [
+        el("b", { text: "Bought " + fmtUnits(b.boughtRaw) + " " + b.symbol }), document.createTextNode(" for " + fmtUnits(b.hypeWei) + " HYPE"),
+        el("small", null, [txLink(b.tx), document.createTextNode(usd(b.hypeWei) ? " " + usd(b.hypeWei) : "")])])] }));
+      if (toBig(r.claimedWei) > 0n) events.push({ key: "c" + r.id, d, node: [icon("claim", "claim"), el("div", { class: "t" }, [
+        el("b", { text: "Claimed " + fmtUnits(r.claimedWei) + " HYPE" }), document.createTextNode(" in fees from BOXA"),
+        el("small", null, [txLink(r.claimTx), document.createTextNode(usd(r.claimedWei) ? " " + usd(r.claimedWei) : "")])])] });
+    });
+    const box = $("feed");
+    $("feedCount").textContent = "live · " + events.length + " events";
+    if (!events.length) return;
+    const fresh = seen ? events.filter((e) => !seen.has(e.key)).map((e) => e.key) : [];
+    seen = new Set(events.map((e) => e.key));
+    box.replaceChildren(...events.slice(0, 120).map((e) => el("div", { class: "ev" + (fresh.includes(e.key) ? " new" : "") }, [...e.node, el("div", { class: "when", text: e.live ? "this round" : e.d ? fmtAgo(e.d) : "" })])));
+  }
+
+  function renderRounds() {
+    const hist = Array.isArray(state.history) ? state.history : [];
+    const paid = hist.filter((r) => Number(r.transfers) > 0).length;
+    $("roundsCount").textContent = hist.length ? hist.length + (hist.length === 1 ? " round" : " rounds") + " · " + paid + " paid out" : "Every round, newest first.";
+    const box = $("roundList");
+    if (!hist.length) { box.replaceChildren(el("div", { class: "empty", text: "No rounds yet. The first one runs on the next check." })); return; }
+    box.replaceChildren(...hist.map((r) => {
+      const d = parseDate(r.finishedAt);
+      const bought = (r.buys || []).filter((b) => b.status === "done");
+      const body = el("div", { class: "body" });
+      if (bought.length || (r.buys || []).some((b) => b.status === "failed")) {
+        body.append(el("div", { class: "chips" }, (r.buys || []).filter((b) => b.status === "done" || b.status === "failed").map((b) =>
+          el("span", { class: "chip " + (b.status === "failed" ? "failed" : "") }, [mark(b.symbol), el("span", { text: b.symbol + " " + (b.status === "done" ? fmtUnits(b.boughtRaw) : "failed") })]))));
+      } else {
+        body.append(el("div", { class: "none", text: "Nothing bought: no eligible holders yet, the HYPE stayed in the vault." }));
+      }
+      const steps = [["Claim", r.claimTx], ["Fees → vault", r.taxTx], ["Withdraw", r.withdrawTx],
+        ...(r.buys || []).filter((b) => b.status === "done").map((b) => ["Buy " + b.symbol, b.tx]),
+        ...(r.airdrops || []).map((a) => ["Airdrop " + a.symbol + " (" + a.recipients + ")", a.tx]),
+        ["Unspent → vault", r.returnTx]].filter(([, h]) => isHash(h));
+      if (steps.length) body.append(el("div", { class: "proof" }, [el("span", { text: "Proof:" }), ...steps.map(([label, h]) => txLink(h, label))]));
+      return el("div", { class: "rd" }, [
+        el("div", { class: "when" }, [el("b", { text: d ? d.toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—" }), el("small", { text: (d ? fmtAgo(d) : "") + (r.id ? " · #" + short(String(r.id)) : "") })]),
+        body,
+        el("div", { class: "meta" }, [el("div", null, [el("b", { text: fmtUnits(r.spentWei) }), document.createTextNode(" HYPE")]), el("div", null, [el("b", { text: fmtInt(r.holders ?? 0) }), document.createTextNode(" holders")])]),
+      ]);
+    }));
+  }
+
+  function tick() {
+    if (!state) return;
+    const next = parseDate(state.rounds && state.rounds.nextAt), interval = Number(state.settings && state.settings.intervalMs);
+    let text, progress = 0;
+    if (state.current && state.current.phase) { text = "Live"; progress = 1; }
+    else if (!next) text = state.token ? "--:--" : "Soon";
+    else {
+      const left = next.getTime() - Date.now();
+      if (interval > 0) progress = Math.min(Math.max(1 - left / interval, 0), 1);
+      let s = Math.floor(left / 1000);
+      if (s <= 0) { text = "Now"; progress = 1; }
+      else { const h = Math.floor(s / 3600); s %= 3600; const m = Math.floor(s / 60), sec = s % 60, p = (n) => String(n).padStart(2, "0"); text = (h ? h + ":" : "") + p(m) + ":" + p(sec); }
+    }
+    $("clock").textContent = text;
+    $("ring").setAttribute("stroke-dashoffset", String(301.6 * (1 - progress)));
+    const every = fmtDuration(interval);
+    $("nextAt").textContent = [next ? "at " + fmtUtc(next) : "", every ? "every " + every : ""].filter(Boolean).join("\n");
+  }
+
+  function renderAll() {
+    document.querySelectorAll('[data-bind="name"]').forEach((n) => (n.textContent = state.name || "ElysIndex"));
+    document.title = (state.name || "ElysIndex") + " dApp";
+    if (Number.isFinite(Number(state.chainId))) $("chainId").textContent = String(state.chainId);
+    const ca = $("caLink");
+    if (ca) {
+      ca.title = TOKEN;
+      ca.textContent = short(TOKEN);
+      if (explorer()) ca.href = addrUrl(TOKEN);
+    }
+    renderVault(); renderStats(); renderTokens(); renderChart(); renderFeed(); renderRounds(); tick();
+    if (wallet) checkWallet(wallet, true);
+  }
+
+  let polling = false;
+  async function load() {
+    if (polling) return;
+    polling = true;
+    try {
+      const res = await fetch("/api/status", { headers: { Accept: "application/json" }, cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      state = await res.json();
+      if (state && typeof state === "object") {
+        state.token = TOKEN;
+        if (state.contracts && typeof state.contracts === "object") state.contracts.token = TOKEN;
+      }
+      $("banner").classList.remove("show");
+      renderAll();
+      $("updated").textContent = "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    } catch (e) {
+      console.error("[elysindex] status refresh failed", e);
+      $("banner").classList.add("show");
+    } finally { polling = false; }
+  }
+
+  // ---------- wallet ----------
+  async function checkWallet(addr, quiet) {
+    const err = $("walletErr");
+    err.hidden = true;
+    if (!isAddr(addr)) { err.textContent = "That isn't a wallet address (0x… and 42 characters)."; err.hidden = false; return; }
+    try {
+      const res = await fetch("/api/wallet/" + addr, { headers: { Accept: "application/json" }, cache: "no-store" });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data) throw new Error((data && data.error) || "The checker is unavailable right now.");
+      wallet = addr;
+      $("wAddr").textContent = data.address;
+      $("wBal").textContent = fmtUnits(data.balanceRaw) + " " + symbol();
+      const st = (state && state.settings) || {}, hold = Number(st.holdMinutes) || 0, live = st.ledgerSource === "live";
+      $("wStatus").replaceChildren(el("span", { class: "pill " + (data.eligible ? "ok" : data.pending ? "wait" : "no"), text: data.eligible ? "Eligible" : data.pending ? (live ? "Holding" : "Confirming") : "Not eligible" }));
+      $("wShare").textContent = !data.eligible ? "0%" : data.sharePercent == null ? "—" : Number(data.sharePercent) < 0.01 ? "<0.01%" : Number(data.sharePercent).toFixed(2) + "%";
+      const t = state && state.treasury, dev = Number(state && state.devPercent) || 0;
+      const pool = t && t.waitingWei != null ? hype(t.waitingWei) : null;
+      const est = data.eligible && pool !== null && data.sharePercent != null ? (pool * (1 - dev / 100) * Number(data.sharePercent)) / 100 : null;
+      const p = Number(t && t.hypeUsd);
+      $("wEst").textContent = est === null ? "—" : p > 0 ? "$" + (est * p).toFixed(2) : est.toFixed(4) + " HYPE";
+      $("wNote").textContent = data.eligible ? "You're in the next airdrop. Estimate uses the fees waiting at BOXA right now."
+        : data.pending ? (live ? "You hold enough. It counts for airdrops once you have held it for " + hold + " minutes." : "You hold enough. It counts for airdrops once BOXA confirms the batch with your buy (usually within a few hours).")
+        : "Hold at least " + fmtUnits(data.eligibleMinRaw) + " $" + symbol() + " to qualify.";
+      const rec = data.received && typeof data.received === "object" ? data.received : {};
+      const keys = Object.keys(rec).filter((k) => toBig(rec[k]) > 0n);
+      $("wReceived").replaceChildren(el("span", { class: "k", text: "Received from airdrops" }),
+        ...(keys.length ? keys.map((k) => el("div", { class: "row" }, [mark(k, "sm"), el("b", { text: k }), el("span", { class: "r", text: fmtUnits(rec[k]) })])) : [el("p", { class: "w-empty", text: "Nothing received yet." })]));
+    } catch (e) {
+      if (!quiet) { err.textContent = e.message; err.hidden = false; }
+    }
+  }
+  $("walletForm").addEventListener("submit", (ev) => { ev.preventDefault(); checkWallet($("walletInput").value.trim()); });
+  const connectBtn = $("connectBtn");
+  connectBtn.addEventListener("click", async () => {
+    if (!window.ethereum || typeof window.ethereum.request !== "function") { $("walletInput").focus(); $("wNote").textContent = "No browser wallet found. Paste an address instead."; location.hash = "wallet"; return; }
+    try {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      if (Array.isArray(accounts) && isAddr(accounts[0])) {
+        connectBtn.textContent = short(accounts[0]);
+        $("walletInput").value = accounts[0];
+        checkWallet(accounts[0]);
+      }
+    } catch (_) { /* closed the wallet prompt */ }
+  });
+
+  load();
+  setInterval(load, POLL_MS);
+  setInterval(tick, 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElysIndex</title>
+<meta name="description" content="The best of Elysium in one token. 5% of every trade buys a weighted basket of top Elysium tokens and airdrops it to every holder.">
+<meta name="theme-color" content="#0b1d22">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ElysIndex">
+<meta property="og:title" content="ElysIndex: the best of Elysium, airdropped to every holder">
+<meta property="og:description" content="5% of every trade buys the best tokens on Elysium and airdrops them to every holder, every 45 minutes. No staking, no claiming.">
+<meta property="og:url" content="https://elysindex.com/">
+<meta property="og:image" content="https://elysindex.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ElysIndex: the best of Elysium, bought and airdropped to every holder.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ElysIndexs">
+<meta name="twitter:title" content="ElysIndex: the best of Elysium, airdropped to every holder">
+<meta name="twitter:description" content="5% of every trade buys the best tokens on Elysium and airdrops them to every holder, every 45 minutes. No staking, no claiming.">
+<meta name="twitter:image" content="https://elysindex.com/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paper (light) */
+    --paper: #f4f2ec;
+    --paper-2: #ebe8df;
+    --card: #faf9f5;
+    --ink: #0b1f1c;
+    --ink-2: #44524f;
+    --ink-3: #7c8784;
+    --rule: rgba(11, 31, 28, .1);
+    --rule-2: rgba(11, 31, 28, .18);
+    /* Hyperliquid */
+    --teal: #0b3b33;
+    --teal-2: #0f4a40;
+    --mint: #97fce4;
+    --mint-ink: #04201b;
+    /* Night band */
+    --night: #071a17;
+    --night-2: #0b231f;
+    --night-3: #10302a;
+    --n-line: rgba(151, 252, 228, .1);
+    --n-line-2: rgba(151, 252, 228, .18);
+    --n-text: #e4f1ed;
+    --n-muted: #8aa39d;
+    --n-faint: #557069;
+    --rose: #d9534f;
+    --serif: "Instrument Serif", "Times New Roman", serif;
+    --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --wrap: 1200px;
+    --r: 22px;
+    --r-sm: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 var(--sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--mint); color: var(--mint-ink); }
+  a { color: inherit; }
+  img { max-width: 100%; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: var(--mono); }
+  .num { font-variant-numeric: tabular-nums; }
+  .muted { color: var(--ink-3); }
+  .k { font: 500 11px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+  .sr { position: absolute; left: -9999px; }
+
+  #banner { display: none; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; max-width: 520px; margin: 0 auto; padding: 10px 14px; border-radius: 12px; background: #3a1414; color: #ffd6d4; font-size: 14px; text-align: center; }
+  #banner.show { display: block; }
+
+
+  /* Nav */
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(244, 242, 236, .82); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid var(--rule); }
+  .nav-inner { display: flex; align-items: center; gap: 28px; height: 70px; }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .brand-mark { width: 34px; height: 34px; border-radius: 9px; flex: none; }
+  .brand-name { font: 400 27px/1 var(--serif); letter-spacing: -.01em; }
+  nav.links { display: flex; gap: 2px; margin: 0 auto; }
+  nav.links a { text-decoration: none; color: var(--ink-2); font-size: 15px; padding: 8px 14px; border-radius: 999px; transition: background .15s, color .15s; }
+  nav.links a:hover { background: var(--paper-2); color: var(--ink); }
+  .menu-btn { display: none; margin-left: auto; background: var(--card); border: 1px solid var(--rule-2); color: var(--ink); border-radius: 999px; padding: 8px 16px; font: 500 14px var(--sans); cursor: pointer; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 500 15px/1 var(--sans); padding: 15px 24px; border-radius: 999px; text-decoration: none; cursor: pointer; border: 1px solid transparent; background: var(--paper-2); color: var(--ink); transition: background .2s, transform .1s, box-shadow .2s; }
+  .btn:hover { background: #e2ded2; }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--teal); color: #f1fbf8; }
+  .btn.primary:hover { background: var(--teal-2); box-shadow: 0 10px 30px -10px rgba(11, 59, 51, .6); }
+  .btn.mint { background: var(--mint); color: var(--mint-ink); }
+  .btn.mint:hover { background: #b5ffee; box-shadow: 0 0 0 6px rgba(151, 252, 228, .15); }
+  .btn.ghost-n { background: transparent; border-color: var(--n-line-2); color: var(--n-text); }
+  .btn.ghost-n:hover { background: var(--night-3); }
+  .btn.sm { padding: 11px 18px; font-size: 14px; }
+  .btn:disabled { opacity: .55; cursor: not-allowed; }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* Hero */
+  .hero { position: relative; padding: 64px 0 40px; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); background: var(--card); border: 1px solid var(--rule); border-radius: 999px; padding: 8px 14px 8px 10px; }
+  .eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: #1fb894; animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(31, 184, 148, .5); } 100% { box-shadow: 0 0 0 9px rgba(31, 184, 148, 0); } }
+  h1 { font: 400 clamp(52px, 6vw, 86px)/.98 var(--serif); letter-spacing: -.025em; margin: 26px 0 26px; text-wrap: balance; }
+  h1 em, h2 em { font-style: italic; }
+  .pill { display: inline-block; background: var(--teal); color: var(--mint); padding: 0 .16em .04em; border-radius: .14em; line-height: 1.02; }
+  .lede { font-size: 18.5px; line-height: 1.6; color: var(--ink-2); max-width: 540px; margin: 0 0 34px; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .hero-art { position: relative; margin: 0; aspect-ratio: 1; }
+  @keyframes float { 50% { transform: translateY(-10px); } }
+  .glass { background: rgba(250, 249, 245, .78); backdrop-filter: blur(14px) saturate(140%); border: 1px solid rgba(255, 255, 255, .7); box-shadow: 0 24px 60px -24px rgba(11, 31, 28, .35), inset 0 1px 0 #fff; border-radius: 18px; }
+  .live-card { position: absolute; left: -6%; bottom: 6%; width: min(330px, 70%); padding: 18px 20px; }
+  .live-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .phase { display: inline-flex; align-items: center; gap: 7px; font: 500 11px var(--mono); color: var(--ink-3); }
+  .phase .dot { width: 7px; height: 7px; border-radius: 50%; background: #b9c2bf; }
+  .phase.live { color: #0f8a6d; }
+  .phase.live .dot { background: #1fb894; animation: pulse 1.6s infinite; }
+  .clock { font: 400 52px/1 var(--serif); letter-spacing: -.01em; margin: 10px 0 12px; color: var(--teal); }
+  .cycle { height: 5px; border-radius: 3px; background: rgba(11, 59, 51, .1); overflow: hidden; }
+  .cycle span { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #4fd8b8, var(--teal)); transition: width 1s linear; }
+  .cycle-legend { display: flex; justify-content: space-between; margin-top: 8px; font: 11px var(--mono); color: var(--ink-3); }
+  .steps-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 14px; }
+  .steps-mini span { font: 500 11px var(--mono); text-align: center; padding: 6px 2px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-3); }
+  .steps-mini span.on { background: var(--teal); border-color: var(--teal); color: var(--mint); }
+  .steps-mini span.done { color: var(--ink-2); border-color: var(--rule-2); }
+  .live-foot { margin-top: 12px; font-size: 13px; color: var(--ink-3); }
+  .weights-card { position: absolute; right: 0; top: 4%; padding: 14px 16px; min-width: 190px; }
+  .weights-card ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+  .weights-card li { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 500; }
+  .weights-card li b { margin-left: auto; font: 500 13px var(--mono); }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+  .fact { background: var(--card); border: 1px solid var(--rule); border-radius: var(--r-sm); padding: 20px 22px; transition: transform .25s, box-shadow .25s; }
+  .fact:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -24px rgba(11, 31, 28, .35); }
+  .fact h3 { margin: 0; font: 400 25px/1.1 var(--serif); }
+  .fact .k { display: block; margin: 7px 0 8px; color: #13806a; }
+  .fact p { margin: 0; font-size: 14px; color: var(--ink-3); }
+
+  /* Sections */
+  section.block { padding: 130px 0 0; scroll-margin-top: 72px; }
+  .label { font: italic 400 22px var(--serif); color: var(--ink-3); }
+  .night .label { color: var(--n-muted); }
+  h2 { font: 400 clamp(42px, 5.4vw, 72px)/1 var(--serif); letter-spacing: -.02em; margin: 6px 0 0; text-wrap: balance; }
+  .sec-head { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: end; margin-bottom: 44px; }
+  .sec-head p { margin: 0; color: var(--ink-2); font-size: 17px; max-width: 460px; justify-self: end; }
+  .night .sec-head p { color: var(--n-muted); }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .step { background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+  .step-art { position: relative; aspect-ratio: 1 / .78; overflow: hidden; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .step-art img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 60%, transparent 100%); mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, #000 60%, transparent 100%); transform: scale(1.04); transition: transform 1s cubic-bezier(.2, .8, .2, 1); }
+  .step:hover .step-art img { transform: scale(1.1); }
+  .step-art .n { position: absolute; left: 18px; top: 16px; font: italic 400 22px var(--serif); color: var(--ink-3); }
+  .step-body { padding: 24px 26px 28px; }
+  .step h4 { margin: 0 0 10px; font: 400 30px/1.08 var(--serif); letter-spacing: -.01em; }
+  .step p { margin: 0; font-size: 15.5px; color: var(--ink-2); }
+  .step p b { color: var(--ink); font-weight: 600; }
+  .split-bar { display: flex; gap: 3px; height: 8px; margin-top: 20px; }
+  .split-bar span { border-radius: 4px; }
+  .split-bar span:first-child { background: var(--teal); }
+  .split-bar span:last-child { background: var(--paper-2); }
+  .split-legend { display: flex; justify-content: space-between; margin-top: 8px; font: 12px var(--mono); color: var(--ink-3); }
+  .why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .why div { border-top: 1px solid var(--rule-2); padding: 18px 2px 0; font-size: 15px; color: var(--ink-3); }
+  .why b { display: block; font: 400 22px var(--serif); color: var(--ink); margin-bottom: 2px; }
+
+  /* Night band */
+  .night { background: var(--night); color: var(--n-text); margin-top: 140px; padding: 0 0 130px; position: relative; overflow: hidden; }
+  .night::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(900px 500px at 85% 0%, rgba(151, 252, 228, .09), transparent 60%), radial-gradient(700px 500px at 0% 60%, rgba(151, 252, 228, .05), transparent 60%); }
+  .night::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; background-image: linear-gradient(var(--n-line) 1px, transparent 1px), linear-gradient(90deg, var(--n-line) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(180deg, #000, transparent 40%); -webkit-mask-image: linear-gradient(180deg, #000, transparent 40%); }
+  .night > * { position: relative; z-index: 1; }
+  .night section.block { padding-top: 120px; }
+  .night .k { color: var(--n-muted); }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid var(--n-line); }
+  .stat { padding: 44px 24px 38px; border-right: 1px solid var(--n-line); min-width: 0; }
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { border-right: none; }
+  .stat .v { font: 400 clamp(40px, 4.4vw, 60px)/1 var(--serif); margin-top: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat .v small { font: 500 12px var(--mono); color: var(--n-muted); margin-left: 6px; letter-spacing: .06em; }
+  .panel { background: linear-gradient(180deg, var(--night-2), rgba(11, 35, 31, .7)); border: 1px solid var(--n-line); border-radius: var(--r); }
+
+  /* Allocation */
+  .alloc-card { padding: 28px; }
+  .alloc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .alloc-head span:last-child { font: 12px var(--mono); color: var(--n-muted); }
+  .alloc { display: flex; gap: 4px; height: 64px; border-radius: 12px; overflow: hidden; }
+  .alloc.empty { background: var(--night-3); }
+  .alloc .seg { position: relative; min-width: 6px; display: flex; align-items: center; gap: 9px; padding: 0 14px; color: rgba(4, 32, 27, .9); font: 600 15px var(--sans); white-space: nowrap; overflow: hidden; transition: flex-grow .6s cubic-bezier(.2, .8, .2, 1), filter .2s; }
+  .alloc .seg:hover { filter: brightness(1.06); }
+  .alloc .seg em { font: 500 13px var(--mono); font-style: normal; margin-left: auto; opacity: .75; }
+  .alloc .seg .seg-mk { box-shadow: 0 0 0 2px rgba(4, 32, 27, .2); }
+  .legend { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+  .legend li { display: flex; align-items: center; gap: 11px; padding: 13px 15px; border-radius: 12px; background: rgba(151, 252, 228, .03); border: 1px solid var(--n-line); min-width: 0; }
+  .legend li.muted { color: var(--n-muted); border-style: dashed; }
+  .legend .sym { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend .pct { margin-left: auto; font: 500 15px var(--mono); color: var(--mint); }
+
+  /* Table */
+  .table-card { margin-top: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th { text-align: left; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--n-muted); padding: 18px 24px; border-bottom: 1px solid var(--n-line); white-space: nowrap; }
+  td { padding: 18px 24px; border-bottom: 1px solid var(--n-line); vertical-align: middle; }
+  tbody tr { transition: background .15s; }
+  tbody tr:hover { background: rgba(151, 252, 228, .03); }
+  tr:last-child td { border-bottom: none; }
+  th.r, td.r { text-align: right; }
+  td.rank { width: 56px; font: 400 22px var(--serif); color: var(--n-muted); }
+  .tok { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .tok-badge { position: relative; overflow: hidden; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--mono); flex: none; color: var(--mint-ink); box-shadow: 0 0 0 1px var(--n-line-2); }
+  .tok-name { font-weight: 600; font-size: 16px; }
+  .tok-addr { font: 12px var(--mono); color: var(--n-muted); text-decoration: none; }
+  a.tok-addr:hover { color: var(--mint); }
+  .venue { font: 500 12px var(--mono); padding: 5px 11px; border-radius: 999px; border: 1px solid var(--n-line-2); color: var(--n-muted); white-space: nowrap; }
+  .wbar { display: flex; align-items: center; gap: 14px; justify-content: flex-end; }
+  .wbar .track { width: 150px; height: 6px; border-radius: 3px; background: var(--night-3); overflow: hidden; }
+  .wbar .fill { height: 100%; border-radius: 3px; }
+  .wbar .p { font: 500 15px var(--mono); min-width: 56px; text-align: right; }
+  .empty { padding: 40px 20px; text-align: center; color: var(--n-muted); }
+
+  /* Token marks: the logo over coloured initials, which show without a logo or when it fails to load. */
+  .mk { position: relative; flex: none; display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; color: var(--mint-ink); font: 600 10px var(--mono); width: 26px; height: 26px; }
+  .mk.sm { width: 20px; height: 20px; font-size: 8px; }
+  .mk.xs { width: 16px; height: 16px; font-size: 7px; }
+  .mk img, .tok-badge img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--night-2); }
+
+  /* Airdrops */
+  .drops { display: grid; grid-template-columns: 360px 1fr; gap: 16px; align-items: start; }
+  .totals-card { padding: 26px; }
+  .pt-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--n-line); }
+  .pt-row:last-child { border-bottom: none; }
+  .pt-row .l { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 600; }
+  .pt-row .l span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pt-row .r { font: 500 15px var(--mono); }
+  .carry { margin-top: 18px; padding: 14px 16px; border-radius: 12px; background: rgba(151, 252, 228, .05); border: 1px solid var(--n-line); display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 14px; color: var(--n-muted); }
+  .carry b { font: 500 15px var(--mono); color: var(--mint); }
+  .history-head { display: flex; justify-content: space-between; align-items: baseline; padding: 22px 26px; border-bottom: 1px solid var(--n-line); gap: 12px; }
+  .history-head h4 { margin: 0; font: 400 28px var(--serif); }
+  .round { padding: 18px 26px; border-bottom: 1px solid var(--n-line); display: grid; grid-template-columns: 150px 1fr auto; gap: 18px; align-items: start; }
+  .round:last-child { border-bottom: none; }
+  .round .when { font-weight: 600; font-size: 15px; }
+  .round .when small { display: block; color: var(--n-muted); font: 12px var(--mono); margin-top: 3px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--mono); padding: 5px 10px; border-radius: 999px; background: rgba(151, 252, 228, .04); border: 1px solid var(--n-line-2); white-space: nowrap; }
+  .chip .s { color: var(--n-muted); }
+  .chip.failed { border-color: rgba(255, 120, 110, .4); color: #ff9a92; }
+  .chip.skipped, .chip.unmeasured { color: var(--n-muted); border-style: dashed; }
+  .round .meta { text-align: right; font-size: 13px; color: var(--n-muted); white-space: nowrap; }
+  .round .meta b { color: var(--n-text); font: 500 14px var(--mono); }
+  .txs { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; font: 12px var(--mono); }
+  .txs a { color: var(--mint); text-decoration: none; }
+  .txs a:hover { text-decoration: underline; }
+  .txs span { color: var(--n-faint); }
+  .more-row { padding: 16px; text-align: center; border-top: 1px solid var(--n-line); }
+
+  /* Wallet */
+  .checker { background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 36px; }
+  .checker form { display: flex; gap: 8px; padding: 8px; border-radius: 999px; background: var(--paper); border: 1px solid var(--rule-2); transition: box-shadow .2s, border-color .2s; }
+  .checker form:focus-within { border-color: var(--teal); box-shadow: 0 0 0 5px rgba(11, 59, 51, .1); }
+  .input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--ink); padding: 12px 16px; font: 16px var(--mono); outline: none; }
+  .input::placeholder { color: var(--ink-3); }
+  .result { margin-top: 26px; display: none; }
+  .result.show { display: block; }
+  .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .result-grid > div { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-sm); padding: 18px; min-width: 0; }
+  .result-grid .v { font: 400 34px/1.1 var(--serif); margin-top: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .received { margin-top: 20px; }
+  .checker .pt-row { border-color: var(--rule); }
+  .checker .mk img { background: var(--paper-2); }
+  .pill-s { display: inline-block; font: 500 13px var(--mono); padding: 6px 12px; border-radius: 999px; }
+  .pill-s.ok { background: var(--teal); color: var(--mint); }
+  .pill-s.no { background: #f7e1df; color: #a33b36; }
+  .note { font-size: 14px; color: var(--ink-3); margin: 14px 0 0; }
+  .err { color: var(--rose); font-size: 14px; margin-top: 14px; }
+
+  /* Contract */
+  .contract { background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 32px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .addr-box { display: flex; align-items: center; gap: 10px; background: var(--paper); border: 1px solid var(--rule-2); border-radius: 999px; padding: 8px 8px 8px 20px; min-width: 0; }
+  .addr-box code { font: 15px var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+  .copy-btn { flex: none; background: var(--teal); border: none; color: var(--mint); border-radius: 999px; padding: 9px 16px; font: 500 13px var(--sans); cursor: pointer; }
+  .copy-btn:hover { background: var(--teal-2); }
+  .chain-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chain-facts span { font-size: 13px; color: var(--ink-3); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; background: var(--paper); }
+  .chain-facts b { color: var(--ink); font: 500 13px var(--mono); }
+  .soon { font: italic 400 44px/1 var(--serif); color: var(--teal); }
+
+  footer { margin-top: 140px; background: var(--teal); color: #a8cbc2; padding: 64px 0 36px; overflow: hidden; }
+  .wordmark { font: 400 clamp(80px, 19vw, 260px)/.8 var(--serif); letter-spacing: -.03em; color: var(--mint); margin: 0 0 40px; white-space: nowrap; user-select: none; }
+  .wordmark em { font-style: italic; color: rgba(151, 252, 228, .55); }
+  .foot-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .8, .2, 1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 1000px) {
+    .menu-btn { display: block; }
+    .nav-inner .nav-cta { display: none; }
+    nav.links { display: none; position: absolute; top: 70px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--paper); border-bottom: 1px solid var(--rule); padding: 8px 16px 14px; margin: 0; }
+    nav.links.open { display: flex; }
+    nav.links a { padding: 12px; border-radius: 10px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { max-width: 620px; width: 100%; justify-self: center; }
+    .live-card { left: 0; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .sec-head { grid-template-columns: 1fr; gap: 14px; }
+    .sec-head p { justify-self: start; }
+    .steps, .why { grid-template-columns: 1fr; }
+    .step { display: grid; grid-template-columns: 1fr 1fr; }
+    .step-art { aspect-ratio: auto; border-bottom: none; border-right: 1px solid var(--rule); }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stat:nth-child(3) { border-right: none; }
+    .stat:nth-child(4) { padding-left: 0; }
+    .stat:nth-child(n+4) { border-top: 1px solid var(--n-line); }
+    .drops { grid-template-columns: 1fr; }
+    .round { grid-template-columns: 1fr auto; }
+    .round .buys { grid-column: 1 / -1; grid-row: 2; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding-top: 40px; }
+    h1 { font-size: 50px; }
+    h2 { font-size: 40px; }
+    .eyebrow { font-size: 10.5px; letter-spacing: .06em; }
+    .lede { font-size: 17px; }
+    .live-card { position: relative; left: auto; bottom: auto; width: 100%; margin-top: -40px; }
+    .weights-card { display: none; }
+    .facts { grid-template-columns: 1fr; }
+    section.block, .night section.block { padding-top: 90px; }
+    .night { margin-top: 100px; padding-bottom: 90px; }
+    .step { display: flex; }
+    .step-art { aspect-ratio: 1 / .7; border-right: none; border-bottom: 1px solid var(--rule); }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat { padding: 26px 14px !important; border-right: 1px solid var(--n-line) !important; border-top: 1px solid var(--n-line); }
+    .stat:nth-child(-n+2) { border-top: none; }
+    .stat:nth-child(2n+1) { padding-left: 0 !important; }
+    .stat:nth-child(2n) { border-right: none !important; }
+    .stat:last-child { grid-column: 1 / -1; border-right: none !important; }
+    .alloc-card, .totals-card, .checker, .contract { padding: 20px; }
+    .alloc { height: 56px; }
+    .alloc .seg { padding: 0 8px; font-size: 13px; }
+    .alloc .seg em, .alloc .seg .seg-mk { display: none; }
+    th, td { padding: 14px; }
+    td.rank, th.rank { display: none; }
+    .wbar .track { width: 50px; }
+    .hide-sm { display: none; }
+    .round { padding: 16px; gap: 10px 14px; }
+    .history-head { padding: 18px 16px; }
+    .result-grid { grid-template-columns: 1fr; }
+    .checker form { flex-direction: column; border-radius: 18px; }
+    .contract { grid-template-columns: 1fr; }
+  }
+
+  /* ===== Elysium dark theme (matches the Elysium explorer palette) ===== */
+  :root {
+    --paper: oklch(0.194 0.028 212);
+    --paper-2: oklch(0.267 0.034 214);
+    --card: oklch(0.214 0.031 213);
+    --ink: oklch(0.985 0 0);
+    --ink-2: oklch(0.82 0.02 213);
+    --ink-3: oklch(0.64 0.03 214);
+    --rule: oklch(0.267 0.034 214);
+    --rule-2: oklch(0.34 0.042 216);
+    --cyan: oklch(0.727 0.121 222);
+    --cyan-dim: oklch(0.727 0.121 222 / .12);
+    --green: oklch(0.70 0.11 177);
+    --green-dim: oklch(0.625 0.093 177 / .18);
+    --active: oklch(0.394 0.055 219);
+    --mint: var(--cyan);
+    --teal: var(--active);
+    --night: oklch(0.172 0.025 212);
+    --night-2: var(--card);
+    --night-3: var(--rule);
+    --n-line: var(--rule);
+    --n-line-2: var(--rule-2);
+    --n-text: var(--ink);
+    --n-muted: var(--ink-3);
+    --n-faint: oklch(0.5 0.03 214);
+    --serif: "DM Sans", system-ui, sans-serif;
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --r: 10px;
+    --r-sm: 8px;
+    --lattice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='70'%3E%3Cpath d='M0 35 60 0 120 35M0 70 60 35 120 70M60 0v35M0 35v35M120 35v35' fill='none' stroke='%23ffffff' stroke-opacity='.05' stroke-width='1.2'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--cyan); color: #04161b; }
+  header.nav { background: oklch(0.194 0.028 212 / .82); }
+  .brand-name { font-weight: 600; font-size: 22px; letter-spacing: -.02em; }
+  nav.links a:hover { background: var(--active); color: var(--ink); }
+  .menu-btn { background: var(--card); color: var(--ink); border-color: var(--rule-2); }
+
+  .btn { border-radius: 8px; background: var(--card); border-color: var(--rule-2); color: var(--ink); font-weight: 500; }
+  .btn:hover { background: var(--rule); }
+  .btn.primary { background: var(--ink); border-color: var(--ink); color: oklch(0.194 0.028 212); }
+  .btn.primary:hover { background: oklch(0.9 0.02 213); box-shadow: 0 10px 30px -12px oklch(0.727 0.121 222 / .5); }
+  .btn.ghost-n { background: transparent; }
+
+  .hero { padding: 80px 0 56px; overflow: hidden; isolation: isolate; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -3; background: radial-gradient(700px 520px at 70% 42%, oklch(0.727 0.121 222 / .16), transparent 70%); }
+  /* Vector hero: the logo diamond raining the index onto holders. Drawn by drawHeroArt(), sharp at any size. */
+  .hero-svg { position: absolute; z-index: -2; right: -2%; top: 0; height: 100%; width: 66%; pointer-events: none; }
+  .hero-svg .dia { animation: dia-float 7s ease-in-out infinite; transform-box: fill-box; }
+  @keyframes dia-float { 50% { transform: translateY(-12px); } }
+  .hero-svg .thread { fill: none; stroke: oklch(0.86 0.1 185 / .16); stroke-width: .9; }
+  .hero-svg .pulse { fill: none; stroke: #b8fff0; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 14 900; animation: pulse-run var(--d, 3.2s) linear infinite; animation-delay: var(--delay, 0s); filter: drop-shadow(0 0 3px #7dffe0); }
+  @keyframes pulse-run { from { stroke-dashoffset: 914; } to { stroke-dashoffset: 0; } }
+  .hero-svg .node { animation: node-glow 3.6s ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  @keyframes node-glow { 50% { opacity: .45; } }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(90deg, var(--paper) 0%, oklch(0.194 0.028 212 / .85) 34%, oklch(0.194 0.028 212 / .1) 62%, transparent 80%), linear-gradient(0deg, var(--paper) 0%, transparent 30%), var(--lattice);
+  }
+  .hero-art { aspect-ratio: auto; min-height: 520px; }
+  .eyebrow { background: oklch(0.214 0.031 213 / .8); border-color: var(--rule-2); color: var(--ink-2); border-radius: 8px; backdrop-filter: blur(8px); }
+  .eyebrow i { background: var(--green); }
+  h1 { font-weight: 500; letter-spacing: -.045em; line-height: 1; }
+  h1 em, h2 em { font-style: normal; color: var(--cyan); }
+  .pill { background: var(--active); color: var(--ink); border-radius: 10px; padding: 0 .14em .06em; box-shadow: inset 0 0 0 1px oklch(0.727 0.121 222 / .35); }
+  .lede { color: var(--ink-2); }
+  .glass { background: oklch(0.214 0.031 213 / .78); border: 1px solid var(--rule-2); box-shadow: 0 30px 70px -30px #000, inset 0 1px 0 oklch(1 0 0 / .05); border-radius: 12px; }
+  .live-card { left: auto; right: -2%; bottom: -4%; }
+  .weights-card { right: auto; left: -4%; top: auto; bottom: 0; }
+  .clock { font: 500 52px/1 var(--mono); letter-spacing: -.04em; color: var(--ink); }
+  .cycle { background: var(--rule); }
+  .cycle span { background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: 0 0 14px oklch(0.727 0.121 222 / .6); }
+  .phase .dot { background: var(--ink-3); }
+  .phase.live { color: var(--green); }
+  .phase.live .dot { background: var(--green); }
+  .steps-mini span { border-radius: 6px; border-color: var(--rule-2); }
+  .steps-mini span.on { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); }
+
+  .fact { border-radius: 10px; }
+  .fact h3 { font-weight: 600; font-size: 21px; letter-spacing: -.02em; }
+  .fact .k { color: var(--cyan); }
+  .fact:hover { box-shadow: 0 18px 40px -24px #000; border-color: var(--rule-2); }
+
+  .label { font: 500 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); font-style: normal; }
+  .night .label { color: var(--cyan); }
+  h2 { font-weight: 500; letter-spacing: -.04em; line-height: 1.02; }
+  .step { border-radius: 12px; }
+  .step-art { background: oklch(0.19 0.03 212); border-color: var(--rule); }
+  .step-art img { mix-blend-mode: normal; -webkit-mask-image: none; mask-image: none; }
+  .step-art .n { font: 500 12px var(--mono); letter-spacing: .12em; color: var(--cyan); background: oklch(0.172 0.025 212 / .8); border: 1px solid var(--rule-2); padding: 4px 9px; border-radius: 6px; }
+  .step h4 { font-weight: 600; font-size: 24px; letter-spacing: -.025em; }
+  .split-bar span:first-child { background: var(--cyan); }
+  .split-bar span:last-child { background: var(--rule-2); }
+  .why b { font-weight: 600; font-size: 18px; }
+
+  .night { background: var(--night); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .night::before { background: radial-gradient(900px 500px at 85% 0%, oklch(0.727 0.121 222 / .08), transparent 60%); }
+  .night::after { opacity: 1; background-image: var(--lattice); background-size: 120px 70px; }
+  .stat .v { font: 500 clamp(26px, 2.8vw, 38px)/1 var(--mono); letter-spacing: -.04em; color: var(--cyan); }
+  .stat .v small { color: var(--ink-3); }
+  .panel { background: var(--card); border-color: var(--rule); border-radius: 10px; }
+  .legend li { background: oklch(0.172 0.025 212 / .6); border-radius: 8px; }
+  .legend .pct { color: var(--cyan); }
+  td.rank { font: 500 15px var(--mono); }
+  .alloc { border-radius: 8px; }
+  .alloc .seg { color: #04161b; }
+  .history-head h4 { font-weight: 600; font-size: 20px; letter-spacing: -.02em; }
+  .carry { background: var(--cyan-dim); border-color: oklch(0.727 0.121 222 / .25); }
+  .carry b, .txs a { color: var(--cyan); }
+  .chip { border-radius: 6px; }
+
+  .checker, .contract { border-radius: 12px; }
+  .checker form { border-radius: 10px; background: var(--paper); }
+  .checker form:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 4px var(--cyan-dim); }
+  .result-grid .v { font: 500 28px/1.1 var(--mono); letter-spacing: -.03em; }
+  .pill-s { border-radius: 6px; }
+  .pill-s.ok { background: var(--green-dim); color: var(--green); }
+  .pill-s.no { background: oklch(0.6 0.15 25 / .15); color: oklch(0.75 0.13 25); }
+  .pill-s.wait { background: var(--cyan-dim); color: var(--cyan); }
+  .addr-box { border-radius: 10px; }
+  .copy-btn { background: var(--ink); color: oklch(0.194 0.028 212); border-radius: 6px; }
+  .copy-btn:hover { background: oklch(0.9 0.02 213); }
+  .chain-facts span { border-radius: 6px; }
+  .soon { font: 500 36px/1 var(--sans); letter-spacing: -.03em; color: var(--cyan); font-style: normal; }
+  #banner { background: oklch(0.3 0.08 25); }
+
+  footer { background: var(--night); border-top: 1px solid var(--rule); color: var(--ink-3); position: relative; }
+  footer::before { content: ""; position: absolute; inset: 0; background-image: var(--lattice); pointer-events: none; }
+  footer .wrap { position: relative; }
+  .wordmark { font: 600 clamp(72px, 17vw, 230px)/.85 var(--sans); letter-spacing: -.06em; color: var(--ink); }
+  .wordmark em { font-style: normal; color: var(--cyan); }
+
+  @media (max-width: 1000px) {
+    .hero-svg { width: 100%; right: -18%; opacity: .7; }
+    .hero-art { min-height: 0; }
+    .live-card { position: relative; right: auto; width: 100%; max-width: 460px; }
+    .weights-card { position: relative; left: auto; top: auto; margin-bottom: 12px; max-width: 460px; }
+    nav.links { background: var(--paper); }
+  }
+  @media (max-width: 640px) {
+    .hero-svg { opacity: .45; right: -30%; width: 130%; }
+    h1 { font-size: 46px; }
+    .weights-card { display: block; }
+  }
+
+  /* ===== Live treasury ===== */
+  .tre { display: grid; grid-template-columns: 1.05fr 1.6fr; gap: 14px; }
+  .tre-clock { position: relative; overflow: hidden; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;
+    background: radial-gradient(600px 300px at 0% 0%, oklch(0.727 0.121 222 / .16), transparent 60%), var(--card); }
+  .tre-clock::after { content: ""; position: absolute; inset: 0; background-image: var(--lattice); opacity: .6; pointer-events: none; }
+  .tre-clock > * { position: relative; z-index: 1; }
+  .tre-last { display: flex; justify-content: space-between; gap: 10px; font: 500 13px var(--mono); color: var(--ink-3); }
+  .tre-last b { color: var(--ink); font-weight: 500; }
+  .big-clock { font: 500 clamp(64px, 8vw, 112px)/1 var(--mono); letter-spacing: -.06em; color: var(--ink); margin: 26px 0 8px; text-shadow: 0 0 40px oklch(0.727 0.121 222 / .35); }
+  .tre-bar { height: 8px; border-radius: 4px; background: var(--rule); overflow: hidden; margin-top: 18px; }
+  .tre-bar span { display: block; height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: 0 0 16px oklch(0.727 0.121 222 / .6); transition: width 1s linear; }
+  .tre-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font: 12px var(--mono); color: var(--ink-3); flex-wrap: wrap; }
+  .tre-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile { padding: 22px; display: flex; flex-direction: column; gap: 6px; min-width: 0; transition: border-color .2s, transform .2s; }
+  .tile:hover { border-color: var(--rule-2); transform: translateY(-2px); }
+  .tile .v { font: 500 clamp(28px, 2.8vw, 38px)/1.05 var(--mono); letter-spacing: -.04em; color: var(--ink); margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .v small { font-size: 13px; color: var(--ink-3); letter-spacing: 0; margin-left: 4px; }
+  .tile .usd { font: 500 14px var(--mono); color: var(--cyan); min-height: 1em; }
+  .tile .sub { font-size: 13px; color: var(--ink-3); margin-top: auto; padding-top: 8px; }
+  .tile.hot { border-color: oklch(0.727 0.121 222 / .45); background: linear-gradient(180deg, oklch(0.727 0.121 222 / .1), transparent 70%), var(--card); }
+  .tile.span2 { grid-column: span 2; }
+  .live-dot { display: inline-flex; align-items: center; gap: 7px; }
+  .live-dot::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.6s infinite; }
+  .mini-bar { height: 5px; border-radius: 3px; background: var(--rule); overflow: hidden; margin-top: 8px; }
+  .mini-bar span { display: block; height: 100%; width: 0; background: var(--cyan); border-radius: 3px; transition: width .6s; }
+  .pipe { margin-top: 14px; padding: 22px 26px; display: grid; grid-template-columns: auto 1fr auto 1fr auto 1fr auto; align-items: center; gap: 14px; }
+  .node { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .node i { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--cyan-dim); border: 1px solid oklch(0.727 0.121 222 / .35); color: var(--cyan); flex: none; font-style: normal; }
+  .node i svg { width: 18px; height: 18px; }
+  .node b { display: block; font: 500 15px var(--mono); color: var(--ink); white-space: nowrap; }
+  .node span { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+  .flow { height: 2px; border-radius: 2px; background: repeating-linear-gradient(90deg, var(--cyan) 0 8px, transparent 8px 18px); background-size: 36px 2px; opacity: .55; animation: flow 1.2s linear infinite; }
+  @keyframes flow { to { background-position: 36px 0; } }
+  @media (max-width: 1000px) {
+    .tre { grid-template-columns: 1fr; }
+    .tre-tiles { grid-template-columns: 1fr 1fr; }
+    .tile.span2 { grid-column: span 2; }
+    .pipe { grid-template-columns: 1fr; gap: 6px; }
+    .flow { width: 2px; height: 22px; margin-left: 18px; background: repeating-linear-gradient(180deg, var(--cyan) 0 6px, transparent 6px 12px); background-size: 2px 24px; animation: flowv 1.2s linear infinite; }
+    @keyframes flowv { to { background-position: 0 24px; } }
+  }
+  @media (max-width: 640px) {
+    .tre-tiles { grid-template-columns: 1fr; }
+    .tile.span2 { grid-column: auto; }
+    .tre-clock { padding: 22px; }
+  }
+
+  /* Official token logos, up front */
+  .mk { width: 28px; height: 28px; box-shadow: 0 0 0 2px var(--card); }
+  .mk.sm { width: 22px; height: 22px; }
+  .mk.xs { width: 18px; height: 18px; }
+  .logo-stack { display: flex; align-items: center; margin-top: 10px; }
+  .logo-stack .mk { width: 34px; height: 34px; margin-right: -8px; box-shadow: 0 0 0 3px var(--card); }
+  .logo-stack .stack-names { margin-left: 18px; font-size: 13px; color: var(--ink-3); }
+  .hero-index { display: flex; align-items: center; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+  .hero-index .logo-stack { margin: 0 18px 0 0; }
+  .hero-index .logo-stack .mk { box-shadow: 0 0 0 3px var(--paper); }
+  .hero-index b { font-weight: 600; }
+  .boxa-badge { width: 26px; height: 26px; border-radius: 7px; }
+  .fact-logo { width: 22px; height: 22px; border-radius: 6px; vertical-align: -3px; margin-right: 8px; }
+  .logo-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .logo-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border-radius: 999px; background: var(--paper); border: 1px solid var(--rule); font-weight: 600; font-size: 14px; }
+  .logo-chip .mk { width: 26px; height: 26px; box-shadow: none; }
+  .weights-card li .mk { width: 26px; height: 26px; }
+  .node i.img { background: none; border: none; overflow: hidden; }
+  .node i.img img { width: 100%; height: 100%; border-radius: 10px; }
+  .btn .live-dot::before { margin: 0; }
+  .tre-cta { display: flex; align-items: center; gap: 18px; margin-top: 22px; flex-wrap: wrap; color: var(--ink-3); font-size: 14px; }
+
+  /* Treasury vault line */
+  .vault-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 14px; padding: 14px 18px; border-radius: 10px; background: var(--card); border: 1px solid var(--rule); font-size: 14px; color: var(--ink-2); }
+  .vault-line a { color: var(--cyan); text-decoration: none; }
+  .vault-line a:hover { text-decoration: underline; }
+  /* Arc-style distributions */
+  .sec-side { justify-self: end; max-width: 460px; display: grid; gap: 14px; }
+  .sec-side p { justify-self: start; }
+  .pill-live { justify-self: start; font: 500 12px var(--mono); color: var(--ink-2); border: 1px solid var(--rule-2); border-radius: 999px; padding: 6px 12px; background: var(--card); }
+  .tiles6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile .v.big { font: 500 clamp(40px, 4.6vw, 60px)/1 var(--sans); letter-spacing: -.05em; margin-top: 14px; }
+  .tile.clockt .v.big { font-family: var(--mono); letter-spacing: -.06em; color: var(--cyan); text-shadow: 0 0 30px oklch(0.727 0.121 222 / .35); }
+  .tile .tre-bar { margin-top: 14px; height: 5px; }
+  .bytoken-head { display: flex; align-items: baseline; gap: 12px; margin: 40px 0 14px; }
+  .bytoken { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+  .bt { padding: 16px 18px; }
+  .bt-head { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 14px; }
+  .bt-head .mk { width: 24px; height: 24px; }
+  .bt-v { font: 500 26px/1.1 var(--sans); letter-spacing: -.03em; margin: 10px 0 4px; }
+  .bt .sub { font-size: 12px; color: var(--ink-3); }
+  @media (max-width: 1000px) { .tiles6 { grid-template-columns: 1fr 1fr; } .sec-side { justify-self: start; } }
+  @media (max-width: 640px) { .tiles6 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="banner" role="status">Can't reach the index right now. Showing the last known data and retrying.</div>
+
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Home">
+      <img class="brand-mark" src="/assets/logo.svg" alt="" width="34" height="34">
+      <span class="brand-name" data-bind="name">ElysIndex</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <nav class="links" id="navLinks">
+      <a href="#live">Live</a>
+      <a href="#how">How it works</a>
+      <a href="#index">The index</a>
+      <a href="#airdrops">Airdrops</a>
+      <a href="#wallet">Wallet</a>
+      <a href="#contract">Contract</a>
+      <a href="https://x.com/ElysIndexs" target="_blank" rel="noopener noreferrer">Twitter</a>
+    </nav>
+    <a class="btn primary sm nav-cta" href="/app">Enter dApp</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <svg class="hero-svg" id="heroArt" viewBox="0 0 900 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><i></i>5% of every trade → the best of Elysium</span>
+        <h1>The best of Elysium, <span class="pill">bought</span> and <em>airdropped</em> to every holder.</h1>
+        <p class="lede">
+          <strong data-bind="name">ElysIndex</strong> turns its own trading tax into a weighted index of top Elysium tokens
+          and drops it straight into holders' wallets every <span id="heroEvery">round</span>. No staking. No claiming. Just hold.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="/app">Enter dApp
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn" href="#live"><span class="live-dot" aria-hidden="true"></span>Live airdrops</a>
+        </div>
+        <div class="hero-index"><span class="k">Index of</span><div class="logo-stack" id="heroLogos"></div><span class="k">Launched on</span><img src="/assets/tokens/boxa.png" alt="BOXA" class="boxa-badge"><b>BOXA</b></div>
+      </div>
+
+      <figure class="hero-art">
+        
+        <div class="glass weights-card" aria-label="Index weights">
+          <span class="k">Index weighting</span>
+          <ul id="heroWeights"><li class="muted">Loading…</li></ul>
+        </div>
+        <div class="glass live-card" aria-label="Next airdrop">
+          <div class="live-top"><span class="k">Next airdrop</span><span class="phase" id="phase"><span class="dot"></span><span id="phaseText">Waiting</span></span></div>
+          <div class="clock num" id="clock">--:--</div>
+          <div class="cycle" aria-hidden="true"><span id="cycleBar"></span></div>
+          <div class="cycle-legend"><span>Last round</span><span id="cadenceFoot">Every round</span></div>
+          <div class="steps-mini" id="phaseSteps" aria-hidden="true"><span data-p="claiming">Claim</span><span data-p="buying">Buy</span><span data-p="distributing">Airdrop</span></div>
+          <div class="live-foot" id="lastRound">No rounds yet.</div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="wrap facts">
+      <div class="fact reveal"><h3>Elysium</h3><span class="k">Settlement</span><p>Arbitrum Orbit L2 on HyperEVM · chain <span id="factChain">99901</span></p></div>
+      <div class="fact reveal"><h3><img class="fact-logo" src="/assets/tokens/boxa.png" alt="">BOXA v4</h3><span class="k">Launchpad</span><p><span id="factTax">5% buy · 5% sell</span> tax, paid in HYPE</p></div>
+      <div class="fact reveal"><h3>The best of Elysium</h3><span class="k">Index</span><div class="logo-stack" id="factLogos"></div></div>
+      <div class="fact reveal"><h3>Auto airdrop</h3><span class="k" id="factEvery">Every round</span><p id="factHold">Pro rata to holders, no claiming</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><span class="label">01 — How it works</span><h2>Three steps, <em>on repeat.</em></h2></div>
+        <p>Everything runs from the trading tax. Holders don't need to do anything but keep the tokens in their wallet.</p>
+      </div>
+      <div class="steps">
+        <article class="step reveal">
+          <div class="step-art"><img src="/assets/d-step1.jpg" alt="Two coins pass through a glass gate; a slice of each drips into a vault as the tax" loading="lazy" width="1024" height="1024"><span class="n">01</span></div>
+          <div class="step-body">
+            <h4>Every trade is taxed</h4>
+            <p>Every buy and sell of <b>$<span data-bind="symbol">ELYSX</span></b> routes a <b id="hTax">5%</b> fee into the index treasury, paid in HYPE on Elysium.</p>
+          </div>
+        </article>
+        <article class="step reveal">
+          <div class="step-art"><img src="/assets/d-step2.jpg" alt="A glass ring chart split into three weighted segments" loading="lazy" width="1024" height="1024"><span class="n">02</span></div>
+          <div class="step-body">
+            <h4>Buy the best of Elysium</h4>
+            <p>Every <b id="hEvery">round</b>, the treasury buys the tokens in the index: the strongest tokens on Elysium, hand-picked and weighted.</p>
+            <div class="logo-row" id="stepLogos"></div>
+          </div>
+        </article>
+        <article class="step reveal">
+          <div class="step-art"><img src="/assets/d-step3.jpg" alt="Coins rain into a grid of wallets, bigger wallets catching more" loading="lazy" width="1024" height="1024"><span class="n">03</span></div>
+          <div class="step-body">
+            <h4>Airdrop to holders</h4>
+            <p><span id="hSplit"><b>100%</b> of those tokens are airdropped straight to $<span data-bind="symbol">ELYSX</span> holders.</span> No staking, no claiming. Hold at least <b id="hMinPct">0.01%</b> of the supply (<b id="hMin">100,000</b> $<span data-bind="symbol">ELYSX</span>)<span id="hHold"></span> to qualify.</p>
+          </div>
+        </article>
+      </div>
+      <div class="why reveal">
+        <div><b>No claiming</b>Tokens land in your wallet automatically, every round.</div>
+        <div><b>Pro rata</b>Your share follows your balance. Splitting a bag earns nothing extra.</div>
+        <div><b>On chain</b>Every buy and every airdrop is a public transaction.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="night">
+
+    <section class="block" id="live" style="padding-top:110px">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><span class="label">Distributions</span><h2>Airdrops, <em>on the clock.</em></h2></div>
+          <div class="sec-side"><p id="lvIntro">Every round the fees buy the index tokens and airdrop them to every holder. Every transfer is on-chain, txid included.</p><span class="pill-live"><span class="live-dot" id="lvLastPill">Last round —</span></span></div>
+        </div>
+        <div class="tiles6 reveal">
+          <div class="panel tile clockt"><span class="k">Next distribution in</span><div class="v big num" id="lvClock">--:--</div><div class="tre-bar" aria-hidden="true"><span id="lvBar"></span></div><div class="sub" id="lvNextAt">Round at —</div></div>
+          <div class="panel tile"><span class="k">Airdrops paid</span><div class="v big num" id="lvPaid">—</div><div class="sub" id="lvPaidSub">— transfers · — holders</div></div>
+          <div class="panel tile"><span class="k">Holders paid last round</span><div class="v big num" id="lvHolders">—</div><div class="sub" id="lvHoldersSub">min. — of supply</div></div>
+          <div class="panel tile"><span class="k">Fees collected</span><div class="v big num" id="lvFees">—</div><div class="sub" id="lvFeesSub">— claims from BOXA</div></div>
+          <div class="panel tile hot"><span class="k">Being airdropped now</span><div class="v big num" id="lvNow">—</div><div class="sub" id="lvNowSub">bought, on its way to holders</div></div>
+          <div class="panel tile"><span class="k">Waiting at BOXA</span><div class="v big num" id="lvWait">—</div><div class="sub"><span class="live-dot" id="lvWaitSub">live</span></div></div>
+        </div>
+        <div class="vault-line reveal" id="vaultLine" hidden></div>
+        <div class="bytoken-head reveal"><span class="k">Airdropped so far, by token</span><span class="muted" style="font-size:13px">tokens sent to holders</span></div>
+        <div class="bytoken reveal" id="byToken"></div>
+        <div class="tre-cta reveal"><a class="btn primary" href="/app">Enter dApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span>Live vault timer, your wallet and every claim, buy and airdrop as it happens.</span></div>
+      </div>
+    </section>
+
+    <div class="wrap" style="margin-top:56px">
+      <div class="stats" aria-label="Key numbers">
+        <div class="stat"><div class="k">Rounds paid</div><div class="v num" id="sRounds">—</div></div>
+        <div class="stat"><div class="k">HYPE deployed</div><div class="v num"><span id="sSpent">—</span><small>HYPE</small></div></div>
+        <div class="stat"><div class="k">Holders paid</div><div class="v num" id="sHolders">—</div></div>
+        <div class="stat"><div class="k">Tokens in index</div><div class="v num" id="sCount">—</div></div>
+        <div class="stat"><div class="k">Waiting to buy</div><div class="v num"><span id="sCarry">—</span><small>HYPE</small></div></div>
+      </div>
+    </div>
+
+    <section class="block" id="index">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><span class="label">02 — The index</span><h2>What every holder <em>collects.</em></h2></div>
+          <p>Each round's HYPE is split by these weights. The team sets them; changes apply from the next round.</p>
+        </div>
+        <div class="panel alloc-card reveal">
+          <div class="alloc-head"><span class="k">Weighting</span><span id="allocTotal">100%</span></div>
+          <div class="alloc" id="alloc" role="img" aria-label="Index weights"></div>
+          <ul class="legend" id="legend"><li class="muted">Loading…</li></ul>
+        </div>
+        <div class="panel table-card reveal">
+          <table>
+            <thead><tr><th class="rank">#</th><th>Token</th><th class="hide-sm">Bought on</th><th class="r">Weight</th><th class="r hide-sm">Airdropped</th></tr></thead>
+            <tbody id="basketBody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="airdrops">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div><span class="label">03 — Airdrops</span><h2>Every round, <em>on the record.</em></h2></div>
+          <p>Each round claims the tax, buys the index and sends it to eligible holders in one batch per token.</p>
+        </div>
+        <div class="drops reveal">
+          <div class="panel totals-card">
+            <span class="k">Airdropped so far</span>
+            <div id="perToken" style="margin-top:6px"><div class="empty" style="padding:14px 0;text-align:left">Nothing airdropped yet.</div></div>
+            <div class="carry"><span>Carried to next round</span><b><span id="tCarry">—</span> HYPE</b></div>
+          </div>
+          <div class="panel">
+            <div class="history-head"><h4>Round history</h4><span class="mono" style="font-size:12px;color:var(--n-muted)" id="histCount"></span></div>
+            <div id="history"><div class="empty">No rounds yet. The first payout lands after launch.</div></div>
+            <div class="more-row" id="moreRow" hidden><button class="btn ghost-n sm" id="moreBtn">Show more</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="block" id="wallet">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><span class="label">04 — Wallet</span><h2>What has your bag <em>earned?</em></h2></div>
+        <p>Paste any address to see its balance, whether it's in the next airdrop, and everything it has received.</p>
+      </div>
+      <div class="checker reveal">
+        <form id="walletForm" autocomplete="off">
+          <label for="walletInput" class="sr">Wallet address</label>
+          <input class="input" id="walletInput" placeholder="0x… paste a wallet address" spellcheck="false" inputmode="text" maxlength="42">
+          <button class="btn" type="button" id="connectBtn" hidden>Connect wallet</button>
+          <button class="btn primary" type="submit" id="walletBtn">Check</button>
+        </form>
+        <div class="err" id="walletErr" hidden></div>
+        <div class="result" id="walletResult">
+          <div class="result-grid">
+            <div><div class="k">Balance</div><div class="v num" id="wBal">—</div></div>
+            <div><div class="k">Next airdrop</div><div class="v" id="wStatus">—</div></div>
+            <div><div class="k">Minimum to qualify</div><div class="v num" id="wMin">—</div></div>
+          </div>
+          <div class="received"><span class="k">Received from airdrops</span><div id="wReceived"></div></div>
+          <p class="note" id="wNote"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contract">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><span class="label">05 — Contract</span><h2>The only <em>official</em> address.</h2></div>
+        <p>Always check the address before you buy. Anything else is not us.</p>
+      </div>
+      <div class="contract reveal">
+        <div style="min-width:0">
+          <div id="contractBox"><div class="addr-box"><code title="0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38">0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38</code></div></div>
+          <div class="chain-facts">
+            <span>Chain <b id="cChain">Elysium · 99901</b></span>
+            <span>Gas <b>HYPE</b></span>
+            <span>Tax <b id="cTax">5% buy / 5% sell</b></span>
+            <span>Launched on <b>BOXA</b></span>
+          </div>
+        </div>
+        <a class="btn" id="explorerBtn" href="https://boxa.club/explorer/address/0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38" target="_blank" rel="noopener noreferrer">View on explorer</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="wordmark" aria-hidden="true">Elys<em>Index</em></div>
+    <div class="foot-row">
+      <span><span data-bind="name">ElysIndex</span> · <a href="https://x.com/ElysIndexs" target="_blank" rel="noopener noreferrer">@ElysIndexs</a> · Airdrops are sent by an automated bot. Nothing here is financial advice.</span>
+      <span class="mono" id="updated"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  // Single source for the fallback name and symbol. The API's name/symbol override these.
+  const BRAND_FALLBACK = { name: "ElysIndex", symbol: "ELYSX" };
+  // Our token. The status API's token field is replaced with this.
+  const TOKEN = "0x836ef9293eaddbfdf2ca524c76e8276a5caf9c38";
+  const POLL_MS = 30000;
+  const DECIMALS = 18; // assumed for the index token, HYPE and every basket token
+  const HISTORY_PAGE = 10;
+  const COLORS = ["#4fc3e8", "#5fd4b0", "#a9b8ff", "#f2c46d", "#ff9e80", "#c39bff", "#9be38f", "#dfe6e4", "#7fe0ff", "#ffb3c7"];
+
+  const $ = (id) => document.getElementById(id);
+  let state = null;
+  let historyShown = HISTORY_PAGE;
+
+  // ---------- helpers ----------
+  function el(tag, opts, children) {
+    const n = document.createElement(tag);
+    if (opts) {
+      for (const [k, v] of Object.entries(opts)) {
+        if (v == null) continue;
+        if (k === "text") n.textContent = v;
+        else if (k === "class") n.className = v;
+        else if (k === "style") n.setAttribute("style", v);
+        else n.setAttribute(k, v);
+      }
+    }
+    if (children) for (const c of children) if (c != null) n.append(c);
+    return n;
+  }
+  const str = (v) => (typeof v === "string" ? v : v == null ? "" : String(v));
+  const isAddr = (a) => typeof a === "string" && /^0x[0-9a-fA-F]{40}$/.test(a);
+  const isHash = (h) => typeof h === "string" && /^0x[0-9a-fA-F]{64}$/.test(h);
+  const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : str(a));
+  const color = (i) => COLORS[i % COLORS.length];
+  function explorerBase() {
+    const e = state && state.explorer;
+    if (typeof e !== "string" || !/^https?:\/\/[^\s"'<>]+$/i.test(e.trim())) return "";
+    return e.trim().replace(/\/+$/, "");
+  }
+  const addrUrl = (a) => (explorerBase() && isAddr(a) ? explorerBase() + "/address/" + a : "");
+  const txUrl = (h) => (explorerBase() && isHash(h) ? explorerBase() + "/tx/" + h : "");
+  function linkOrText(text, url, cls) {
+    if (url) return el("a", { class: cls, href: url, target: "_blank", rel: "noopener noreferrer", text });
+    return el("span", { class: cls, text });
+  }
+
+  function toBig(v) {
+    if (typeof v === "bigint") return v;
+    if (typeof v === "number" && Number.isSafeInteger(v)) return BigInt(v);
+    if (typeof v === "string" && /^-?\d+$/.test(v.trim())) return BigInt(v.trim());
+    return null;
+  }
+
+  // Raw integer string -> short human string, BigInt only.
+  function fmtUnits(raw, decimals = DECIMALS) {
+    let v = toBig(raw);
+    if (v === null) return "—";
+    const neg = v < 0n;
+    if (neg) v = -v;
+    const base = 10n ** BigInt(decimals);
+    const whole = v / base;
+    let out;
+    const scaled = (unit, suffix) => {
+      const tenths = (v * 10n) / (base * unit); // one decimal, truncated
+      const i = tenths / 10n, f = tenths % 10n;
+      return (f === 0n ? i.toString() : i.toString() + "." + f.toString()) + suffix;
+    };
+    if (whole >= 1000000000000n) out = scaled(1000000000000n, "T");
+    else if (whole >= 1000000000n) out = scaled(1000000000n, "B");
+    else if (whole >= 1000000n) out = scaled(1000000n, "M");
+    else if (whole >= 1000n) out = scaled(1000n, "K");
+    else if (v === 0n) out = "0";
+    else {
+      const frac = ((v % base) * 10000n) / base;
+      if (whole === 0n && frac === 0n) return (neg ? "-" : "") + "<0.0001";
+      let fs = frac.toString().padStart(4, "0").replace(/0+$/, "");
+      out = whole.toString() + (fs ? "." + fs : "");
+    }
+    return (neg ? "-" : "") + out;
+  }
+  function fmtInt(n) {
+    const v = toBig(n);
+    if (v === null) return "—";
+    return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  function fmtPct(bps) {
+    const v = Number(bps);
+    if (!Number.isFinite(v)) return "—";
+    const p = v / 100;
+    return (Number.isInteger(p) ? p.toString() : p.toFixed(2).replace(/0+$/, "").replace(/\.$/, "")) + "%";
+  }
+  function fmtNum(n) {
+    const v = Number(n);
+    if (!Number.isFinite(v)) return "—";
+    return (Math.round(v * 100) / 100).toString();
+  }
+  function fmtDuration(ms) {
+    const m = Math.round(Number(ms) / 60000);
+    if (!Number.isFinite(m) || m <= 0) return "";
+    if (m % 1440 === 0) return m === 1440 ? "day" : m / 1440 + " days";
+    if (m % 60 === 0) return m === 60 ? "hour" : m / 60 + " hours";
+    return m === 1 ? "minute" : m + " minutes";
+  }
+  function parseDate(iso) {
+    if (typeof iso !== "string" || !iso) return null;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function fmtAgo(d) {
+    const s = Math.round((Date.now() - d.getTime()) / 1000);
+    if (s < 45) return "just now";
+    if (s < 3600) return Math.round(s / 60) + " min ago";
+    if (s < 86400) return Math.round(s / 3600) + " h ago";
+    return Math.round(s / 86400) + " d ago";
+  }
+  const fmtDate = (d) => d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  const LOGO_RE = /^(https:\/\/[^\s"'<>()\\]+|\/logos\/[0-9a-f]{16}\.(png|jpg|webp|gif)|\/assets\/tokens\/[a-z0-9-]{1,40}\.(png|jpg|webp))$/;
+  function logoOf(symbol) {
+    const b = [...basketList(), ...(state && Array.isArray(state.pastBasket) ? state.pastBasket : [])].find((x) => x && x.symbol === symbol);
+    return b && typeof b.logo === "string" && LOGO_RE.test(b.logo) ? b.logo : "";
+  }
+  function mark(symbol, i, cls) {
+    const letters = str(symbol).replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "?";
+    const n = el("span", { class: cls || "mk", style: "background:" + color(i), text: letters, "aria-hidden": "true" });
+    const url = logoOf(symbol);
+    if (url) {
+      const img = el("img", { src: url, alt: "", loading: "lazy", referrerpolicy: "no-referrer" });
+      img.addEventListener("error", () => img.remove());
+      n.append(img);
+    }
+    return n;
+  }
+  const badge = (symbol, i) => mark(symbol, i, "tok-badge");
+  function basketList() { return state && Array.isArray(state.basket) ? state.basket : []; }
+  function colorIndexOf(symbol) {
+    const i = basketList().findIndex((b) => b && b.symbol === symbol);
+    return i >= 0 ? i : basketList().length + 1;
+  }
+  const symbolOf = () => (state && typeof state.symbol === "string" && state.symbol.trim()) || BRAND_FALLBACK.symbol;
+
+  // ---------- render ----------
+  function renderBrand() {
+    const name = (state && typeof state.name === "string" && state.name.trim()) || BRAND_FALLBACK.name;
+    document.querySelectorAll('[data-bind="name"]').forEach((n) => (n.textContent = name));
+    document.querySelectorAll('[data-bind="symbol"]').forEach((n) => (n.textContent = symbolOf()));
+    document.title = name + " (" + symbolOf() + ")";
+  }
+
+  function renderAlloc() {
+    const bar = $("alloc"), legend = $("legend");
+    const list = basketList();
+    const total = list.reduce((s, b) => s + (Number(b && b.weightBps) > 0 ? Number(b.weightBps) : 0), 0);
+    bar.replaceChildren();
+    bar.classList.toggle("empty", !total);
+    legend.replaceChildren();
+    if (!list.length) legend.append(el("li", { class: "muted", text: "Basket not set yet." }));
+    list.forEach((b, i) => {
+      b = b || {};
+      const w = Number(b.weightBps) > 0 ? Number(b.weightBps) : 0;
+      if (total && w) {
+        const seg = el("div", { class: "seg", style: "flex-grow:" + w + ";background:" + color(i), title: str(b.symbol) + " " + fmtPct(w) }, [
+          mark(b.symbol, i, "mk seg-mk"),
+          el("span", { text: str(b.symbol) || "?" }),
+          el("em", { text: fmtPct(w) }),
+        ]);
+        bar.append(seg);
+      }
+      legend.append(el("li", null, [mark(b.symbol, i), el("span", { class: "sym", text: str(b.symbol) || "?" }), el("span", { class: "pct", text: fmtPct(b.weightBps) })]));
+    });
+  }
+
+  function renderStats() {
+    const s = state;
+    const rounds = s.rounds || {};
+    const totals = s.totals || {};
+    $("sRounds").textContent = fmtInt(rounds.paid ?? 0);
+    $("sSpent").textContent = fmtUnits(totals.hypeSpentWei ?? "0");
+    $("sHolders").textContent = fmtInt(totals.holdersPaid ?? 0);
+    $("sCount").textContent = String(basketList().length);
+    $("sCarry").textContent = fmtUnits(s.carryWei ?? "0");
+    $("tCarry").textContent = fmtUnits(s.carryWei ?? "0");
+  }
+
+  function renderHow() {
+    const s = state;
+    const tax = Number(s.taxPercent);
+    if (Number.isFinite(tax)) { $("hTax").textContent = fmtNum(tax) + "%"; $("cTax").textContent = fmtNum(tax) + "% buy / " + fmtNum(tax) + "% sell"; }
+    const dev = Number(s.devPercent) > 0 ? Number(s.devPercent) : 0;
+    $("hSplit").replaceChildren(el("b", { text: fmtNum(100 - dev) + "%" }), document.createTextNode(" of those tokens are airdropped straight to $" + symbolOf() + " holders" +
+      (dev ? " and " + fmtNum(dev) + "% goes to the development wallet in the same airdrop." : ".")));
+    const settings = s.settings || {};
+    const every = fmtDuration(settings.intervalMs);
+    $("hEvery").textContent = every || "round";
+    $("cadenceFoot").textContent = every ? "Every " + every : "Every round";
+    const hold = Number(settings.holdMinutes) || 0;
+    $("hHold").replaceChildren(...(hold ? [document.createTextNode(" for "), el("b", { text: hold + " minutes" })] : []));
+    if (settings.eligibleMinRaw != null) {
+      $("hMin").textContent = fmtInt(String(toBig(settings.eligibleMinRaw) / 10n ** BigInt(DECIMALS)));
+      $("hMinPct").textContent = supplyPct(settings.eligibleMinRaw);
+    }
+    const logos = $("stepLogos");
+    logos.replaceChildren(...basketList().map((b, i) => el("span", { class: "logo-chip" }, [mark(str(b && b.symbol), i, "mk"), el("span", { text: str(b && b.symbol) })])));
+  }
+
+  // Share of the fixed supply, e.g. "0.01%".
+  function supplyPct(raw) {
+    const v = toBig(raw), total = toBig(state && state.totalSupplyRaw);
+    if (v === null || !total) return "—";
+    const p = Number((v * 1000000n) / total) / 10000;
+    return (p < 0.01 ? p.toFixed(4) : p.toFixed(2)).replace(/0+$/, "").replace(/\.$/, "") + "%";
+  }
+
+  // Hero weights card, fact cards and other small bits of copy that follow the live data.
+  function renderFacts() {
+    const list = basketList();
+    const every = fmtDuration(state.settings && state.settings.intervalMs);
+    $("heroEvery").textContent = every || "round";
+    $("factEvery").textContent = every ? "Every " + every : "Every round";
+    const holdMin = Number(state.settings && state.settings.holdMinutes) || 0;
+    $("factHold").textContent = "Pro rata to holders, no claiming" + (holdMin ? " · hold " + holdMin + " min to qualify" : "");
+    const tax = Number(state.taxPercent);
+    if (Number.isFinite(tax)) $("factTax").textContent = fmtNum(tax) + "% buy · " + fmtNum(tax) + "% sell";
+    if (Number.isFinite(Number(state.chainId))) $("factChain").textContent = String(Number(state.chainId));
+    $("factLogos").replaceChildren(...list.map((b, i) => mark(str(b && b.symbol), i, "mk")), el("span", { class: "stack-names", text: list.map((b) => str(b && b.symbol)).join(" · ") || "Set before launch" }));
+    const total = list.reduce((s, b) => s + (Number(b && b.weightBps) || 0), 0);
+    $("allocTotal").textContent = list.length + (list.length === 1 ? " token · " : " tokens · ") + fmtPct(total);
+    $("heroLogos").replaceChildren(...list.map((b, i) => mark(str(b && b.symbol), i, "mk")));
+    const ul = $("heroWeights");
+    ul.replaceChildren();
+    if (!list.length) ul.append(el("li", { class: "muted", text: "Not set yet" }));
+    list.forEach((b, i) => ul.append(el("li", null, [mark(str(b && b.symbol), i, "mk"), el("span", { text: str(b && b.symbol) }), el("b", { text: fmtPct(b && b.weightBps) })])));
+  }
+
+  function renderBasket() {
+    const body = $("basketBody");
+    body.replaceChildren();
+    const list = basketList();
+    const per = (state.totals && state.totals.perToken) || {};
+    if (!list.length) {
+      body.append(el("tr", null, [el("td", { colspan: "5", class: "empty", text: "The basket hasn't been set yet." })]));
+      return;
+    }
+    list.forEach((b, i) => {
+      b = b || {};
+      const pct = Math.min(Math.max(Number(b.weightBps) / 100, 0), 100) || 0;
+      const addr = str(b.token);
+      const tokCell = el("div", { class: "tok" }, [
+        badge(b.symbol, i),
+        el("div", { style: "min-width:0" }, [
+          el("div", { class: "tok-name", text: str(b.symbol) || "?" }),
+          isAddr(addr) ? linkOrText(short(addr), addrUrl(addr), "tok-addr") : null,
+        ]),
+      ]);
+      const venue = b.venue === "boxa-v4" ? "BOXA v4" : b.venue === "v3" ? "Uniswap v3" : str(b.venue) || "—";
+      const wbar = el("div", { class: "wbar" }, [
+        el("div", { class: "track" }, [el("div", { class: "fill", style: "width:" + pct + "%;background:" + color(i) })]),
+        el("span", { class: "p", text: fmtPct(b.weightBps) }),
+      ]);
+      const sym = str(b.symbol);
+      const got = Object.prototype.hasOwnProperty.call(per, sym) ? fmtUnits(per[sym]) : "0";
+      body.append(el("tr", null, [
+        el("td", { class: "rank num", text: String(i + 1) }),
+        el("td", null, [tokCell]),
+        el("td", { class: "hide-sm" }, [el("span", { class: "venue", text: venue })]),
+        el("td", { class: "r" }, [wbar]),
+        el("td", { class: "r mono hide-sm", text: got }),
+      ]));
+    });
+  }
+
+  function tokenRows(box, amounts, emptyText) {
+    box.replaceChildren();
+    const keys = Object.keys(amounts).filter((k) => { const b = toBig(amounts[k]); return b !== null && b > 0n; });
+    // Basket order first, then any past tokens no longer in the basket.
+    const order = basketList().map((b) => str(b && b.symbol));
+    keys.sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b);
+      return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib) || a.localeCompare(b);
+    });
+    if (!keys.length) { box.append(el("div", { class: "muted", style: "font-size:15px;padding:12px 0", text: emptyText })); return; }
+    for (const k of keys) {
+      box.append(el("div", { class: "pt-row" }, [
+        el("span", { class: "l" }, [mark(k, colorIndexOf(k), "mk sm"), el("span", { text: k })]),
+        el("span", { class: "r", text: fmtUnits(amounts[k]) }),
+      ]));
+    }
+  }
+
+  function renderPhase() {
+    const cur = state.current;
+    const phaseEl = $("phase");
+    const steps = ["claiming", "buying", "distributing"];
+    const labels = { claiming: "Claiming", buying: "Buying", distributing: "Airdropping" };
+    const p = cur && typeof cur.phase === "string" ? cur.phase : null;
+    const idx = steps.indexOf(p);
+    document.querySelectorAll("#phaseSteps span").forEach((n, i) => {
+      n.className = idx < 0 ? "" : i === idx ? "on" : i < idx ? "done" : "";
+    });
+    if (p) {
+      phaseEl.classList.add("live");
+      $("phaseText").textContent = "Live: " + (labels[p] || p);
+    } else {
+      phaseEl.classList.remove("live");
+      $("phaseText").textContent = state.token ? "Idle" : "Starts after launch";
+    }
+    const last = parseDate(state.rounds && state.rounds.lastAt);
+    $("lastRound").textContent = last ? "Last round " + fmtAgo(last) : "No rounds yet.";
+  }
+
+  function renderHistory() {
+    const box = $("history");
+    box.replaceChildren();
+    const hist = Array.isArray(state.history) ? state.history : [];
+    $("histCount").textContent = hist.length ? (hist.length >= 50 ? "latest 50" : hist.length + (hist.length === 1 ? " round" : " rounds")) : "";
+    if (!hist.length) {
+      box.append(el("div", { class: "empty", text: state.token ? "No rounds yet. The first payout is on its way." : "No rounds yet. The first payout lands after launch." }));
+      $("moreRow").hidden = true;
+      return;
+    }
+    hist.slice(0, historyShown).forEach((r) => {
+      r = r || {};
+      const d = parseDate(r.finishedAt);
+      const when = el("div", { class: "when" }, [
+        el("span", { text: d ? fmtDate(d) : "—" }),
+        el("small", { text: (d ? fmtAgo(d) : "") + (r.id ? " · #" + short(str(r.id)) : "") }),
+      ]);
+      const chips = el("div", { class: "chips" });
+      const buys = Array.isArray(r.buys) ? r.buys : [];
+      if (!buys.length) chips.append(el("span", { class: "chip skipped", text: "no buys" }));
+      buys.forEach((b) => {
+        b = b || {};
+        const status = ["done", "failed", "skipped", "unmeasured"].includes(b.status) ? b.status : "done";
+        const chip = el("span", { class: "chip " + status, title: fmtUnits(b.hypeWei) + " HYPE spent" });
+        chip.append(mark(str(b.symbol), colorIndexOf(str(b.symbol)), "mk xs"), el("span", { text: str(b.symbol) }));
+        if (status === "done") chip.append(el("span", { text: fmtUnits(b.boughtRaw) }));
+        else chip.append(el("span", { class: "s", text: status }));
+        chips.append(chip);
+      });
+      const buysCol = el("div", { class: "buys" }, [chips]);
+      const txs = Array.isArray(r.batchTxs) ? r.batchTxs.filter(isHash) : [];
+      if (txs.length) {
+        const t = el("div", { class: "txs" }, [el("span", { text: "Airdrop tx" + (txs.length > 1 ? "s" : "") })]);
+        txs.forEach((h) => t.append(linkOrText(short(h), txUrl(h), txUrl(h) ? "" : "muted")));
+        buysCol.append(t);
+      }
+      const meta = el("div", { class: "meta" }, [
+        el("div", null, [el("b", { text: fmtUnits(r.spentWei) }), document.createTextNode(" HYPE")]),
+        el("div", null, [el("b", { text: fmtInt(r.holders ?? 0) }), document.createTextNode(" holders")]),
+      ]);
+      box.append(el("div", { class: "round" }, [when, buysCol, meta]));
+    });
+    $("moreRow").hidden = hist.length <= historyShown;
+  }
+
+  function renderContract() {
+    const box = $("contractBox");
+    box.replaceChildren();
+    const tok = state.token;
+    const btn = $("explorerBtn");
+    const cid = Number(state.chainId);
+    $("cChain").textContent = "Elysium · " + (Number.isFinite(cid) ? cid : 99901);
+    if (!isAddr(tok)) {
+      box.append(el("div", { class: "soon", text: "Launching soon" }));
+      box.append(el("p", { class: "muted", style: "margin:10px 0 0;font-size:15px", text: "The address will appear here the moment the token is live." }));
+      btn.hidden = true;
+      return;
+    }
+    const code = el("code", { text: tok, title: tok });
+    const copy = el("button", { class: "copy-btn", type: "button", text: "Copy" });
+    copy.addEventListener("click", () => copyText(tok, copy));
+    box.append(el("div", { class: "addr-box" }, [code, copy]));
+    const url = addrUrl(tok);
+    if (url) { btn.href = url; btn.hidden = false; } else btn.hidden = true;
+  }
+
+  async function copyText(text, btn) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (_) {
+      try {
+        const ta = el("textarea", { style: "position:fixed;left:-9999px" });
+        ta.value = text; document.body.append(ta); ta.select();
+        ok = document.execCommand("copy"); ta.remove();
+      } catch (_) { ok = false; }
+    }
+    btn.textContent = ok ? "Copied" : "Copy failed";
+    setTimeout(() => (btn.textContent = "Copy"), 1600);
+  }
+
+
+  // ---------- live treasury ----------
+  const toHype = (wei) => { const b = toBig(wei); return b === null ? null : Number(b) / 1e18; };
+  function fmtUsd(wei) {
+    const p = state && state.treasury && Number(state.treasury.hypeUsd);
+    const h = toHype(wei);
+    if (!(p > 0) || h === null) return "";
+    const v = h * p;
+    return "≈ $" + (v >= 1000 ? Math.round(v).toLocaleString("en-US") : v.toFixed(2));
+  }
+  const fmtUtc = (d) => d.toISOString().slice(11, 16) + " UTC";
+  // A HYPE amount as "$1,234" when the price is known, else "1.2 HYPE".
+  function money(wei) { return fmtUsd(wei).replace("≈ ", "") || fmtUnits(wei) + " HYPE"; }
+  function renderLive() {
+    const s = state, totals = s.totals || {}, rounds = s.rounds || {}, settings = s.settings || {};
+    const every = fmtDuration(settings.intervalMs);
+    const dev = Number(s.devPercent) > 0 ? Number(s.devPercent) : 0;
+    const min = supplyPct(settings.eligibleMinRaw ?? "0");
+    $("lvIntro").textContent = "Every " + (every || "round") +  " the fees buy the index tokens and airdrop " + fmtNum(100 - dev) + "% of them" +
+      " to every wallet holding at least " + min + " of $" + symbolOf() + (Number(settings.holdMinutes) > 0 ? " for " + Number(settings.holdMinutes) + " minutes" : "") + (dev ? " (" + fmtNum(dev) + "% funds development)" : "") + ". Every transfer is on-chain, txid included.";
+    const last = parseDate(rounds.lastAt), next = parseDate(rounds.nextAt);
+    $("lvLastPill").textContent = last ? "Last round " + fmtUtc(last) : s.current ? "Round in progress" : "No rounds yet";
+    $("lvNextAt").textContent = (next ? "Round at " + fmtUtc(next) : s.current ? "Round in progress" : "Round at —") + (every ? " · every " + every.replace("minutes", "min") : "");
+    $("lvPaid").textContent = fmtInt(rounds.paid ?? 0);
+    $("lvPaidSub").textContent = fmtInt(totals.transfers ?? 0) + " transfers · " + fmtInt(totals.holdersPaid ?? 0) + " holders";
+    $("lvHolders").textContent = fmtInt((s.lastRound && s.lastRound.holders) ?? 0);
+    $("lvHoldersSub").textContent = "min. " + min + " of supply";
+    // With the vault, fees come straight from the contract (totalTax), so anyone can check them on chain.
+    const chainVault = (s.treasury || {}).vault;
+    $("lvFees").textContent = money(chainVault ? chainVault.tax : totals.claimedWei ?? "0");
+    const vault = (s.treasury || {}).vault;
+    const deposits = vault ? toBig(vault.deposits) : null;
+    $("lvFeesSub").textContent = fmtInt(totals.claims ?? 0) + (Number(totals.claims) === 1 ? " claim" : " claims") + " from BOXA" +
+      (deposits && deposits > 0n ? " · +" + fmtUnits(vault.deposits) + " HYPE team deposits" : "");
+    const line = $("vaultLine");
+    line.hidden = !vault;
+    if (vault) {
+      const url = addrUrl(vault.address);
+      line.replaceChildren(el("span", { class: "k", text: "Treasury vault" }), linkOrText(short(vault.address), url, "mono"),
+        el("span", { text: "holds " + fmtUnits(vault.balance) + " HYPE" }), el("span", { text: "fees in " + fmtUnits(vault.tax) }),
+        el("span", { text: "deposits " + fmtUnits(vault.deposits) }), el("span", { class: "muted", text: "on-chain, anyone can verify" }));
+    }
+    const cur = s.current;
+    const nowWei = cur ? (cur.spentWei !== "0" ? cur.spentWei : cur.claimedWei) : "0";
+    $("lvNow").textContent = money(nowWei);
+    $("lvNowSub").textContent = !cur ? "nothing in flight right now" : cur.phase === "distributing" ? "bought, on its way to holders · " + fmtInt(cur.transfersDone) + "/" + fmtInt(cur.transfersTotal) : cur.phase === "buying" ? "claimed, buying the index" : "claiming from BOXA";
+    const t = s.treasury || {};
+    $("lvWait").textContent = t.waitingWei == null ? "—" : money(t.waitingWei);
+    const readAt = parseDate(t.readAt);
+    const floor = toBig(settings.roundFloorWei);
+    $("lvWaitSub").textContent = (t.waitingWei == null ? "live after launch" : "live · " + (readAt ? fmtUtc(readAt) : "")) +
+      (floor != null ? " · round starts at " + fmtUnits(String(floor)) + " HYPE" : "");
+    const per = totals.perToken || {}, tx = totals.transfersBySymbol || {};
+    const syms = [...new Set([...basketList().map((b) => str(b && b.symbol)), ...Object.keys(per)])].filter((k) => toBig(per[k] ?? "0") > 0n || basketList().some((b) => b && b.symbol === k));
+    $("byToken").replaceChildren(...syms.map((k) => el("div", { class: "panel bt" }, [
+      el("div", { class: "bt-head" }, [mark(k, colorIndexOf(k), "mk"), el("span", { text: k })]),
+      el("div", { class: "bt-v num", text: fmtUnits(per[k] ?? "0") }),
+      el("div", { class: "sub", text: fmtInt(tx[k] ?? 0) + " transfers" }),
+    ])));
+  }
+
+
+  // ---------- vector hero ----------
+  // The logo diamond (tiles weighted 4:2:2:1) as glass with depth, raining light threads onto a field of
+  // holder nodes. Seeded, so it draws the same every load.
+  function drawHeroArt() {
+    const svg = $("heroArt"), NS = "http://www.w3.org/2000/svg";
+    if (!svg) return;
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const mk = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); (parent || svg).append(n); return n; };
+    const defs = mk("defs", {});
+    const grad = (id, a, b) => { const g = mk("linearGradient", { id, x1: "0", y1: "0", x2: "1", y2: "1" }, defs); mk("stop", { offset: "0", "stop-color": a }, g); mk("stop", { offset: "1", "stop-color": b }, g); };
+    grad("gA", "#d2fff5", "#62e2c2"); grad("gB", "#8ff0d4", "#2f9f84"); grad("gD", "#9be4ff", "#2a86bd");
+    grad("sA", "#3f9c86", "#1d5a4d"); grad("sB", "#2a7463", "#123e35"); grad("sD", "#24638a", "#10324a");
+    const glow = mk("filter", { id: "glow", x: "-50%", y: "-50%", width: "200%", height: "200%" }, defs);
+    mk("feGaussianBlur", { stdDeviation: "26" }, glow);
+
+    const cx = 430, cy = 215, scale = 6;
+    const tiles = [
+      { x: 0, y: 0, w: 19.3, h: 19.3, f: "gA", s: "sA", r: 2.4 },
+      { x: 20.7, y: 0, w: 9.3, h: 19.3, f: "gB", s: "sB", r: 2.2 },
+      { x: 0, y: 20.7, w: 19.3, h: 9.3, f: "gB", s: "sB", r: 2.2 },
+      { x: 20.7, y: 20.7, w: 9.3, h: 9.3, f: "gD", s: "sD", r: 2.2 },
+    ];
+    const tf = "translate(" + cx + " " + cy + ") rotate(-45) scale(" + scale + ") translate(-15 -15)";
+
+    // Floor of holder nodes in perspective, and threads from the diamond's lower edges down to them.
+    const threads = mk("g", {}), pulses = mk("g", {}), nodes = mk("g", {});
+    const rows = 9;
+    for (let r = 0; r < rows; r++) {
+      const t = r / (rows - 1), y = 420 + t * t * 250, k = 0.45 + t * 0.9, cols = 9 + r * 2;
+      for (let c = 0; c < cols; c++) {
+        const x = 90 + ((c + 0.5) / cols) * 800 + (rnd() - 0.5) * 30;
+        if (Math.abs(x - cx) < 40 && r < 2) continue;
+        const sx = cx + (rnd() - 0.5) * 110, sy = cy + 85 + rnd() * 40;
+        const d = "M" + sx.toFixed(1) + " " + sy.toFixed(1) + " Q" + ((sx + x) / 2 + (rnd() - 0.5) * 60).toFixed(1) + " " + (sy + 40 + rnd() * 80).toFixed(1) + " " + x.toFixed(1) + " " + y.toFixed(1);
+        mk("path", { d, class: "thread" }, threads);
+        if (rnd() < 0.35) mk("path", { d, class: "pulse", style: "--d:" + (2.4 + rnd() * 2.4).toFixed(2) + "s;--delay:-" + (rnd() * 5).toFixed(2) + "s" }, pulses);
+        const g = mk("g", { class: "node", style: "--delay:-" + (rnd() * 3.6).toFixed(2) + "s" }, nodes);
+        mk("ellipse", { cx: x.toFixed(1), cy: (y + 3 * k).toFixed(1), rx: (9 * k).toFixed(1), ry: (3 * k).toFixed(1), fill: "#2b4b52" }, g);
+        mk("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: (5.5 * k).toFixed(1), fill: "#7dffe0", opacity: "0.18" }, g);
+        mk("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: (2.2 * k).toFixed(1), fill: "#d9fff6" }, g);
+      }
+    }
+
+    // The diamond: soft glow behind, a darker copy dropped down for thickness, then the glass faces.
+    const dia = mk("g", { class: "dia" });
+    const halo = mk("g", { transform: tf, filter: "url(#glow)", opacity: "0.55" }, dia);
+    const depth = mk("g", { transform: "translate(0 16)" }, dia);
+    const sides = mk("g", { transform: tf }, depth), faces = mk("g", { transform: tf }, dia);
+    for (const t of tiles) {
+      mk("rect", { x: t.x, y: t.y, width: t.w, height: t.h, rx: t.r, fill: "url(#" + t.f + ")" }, halo);
+      mk("rect", { x: t.x, y: t.y, width: t.w, height: t.h, rx: t.r, fill: "url(#" + t.s + ")" }, sides);
+      mk("rect", { x: t.x, y: t.y, width: t.w, height: t.h, rx: t.r, fill: "url(#" + t.f + ")" }, faces);
+      mk("rect", { x: t.x + 0.9, y: t.y + 0.9, width: t.w - 1.8, height: t.h - 1.8, rx: t.r * 0.7, fill: "none", stroke: "#ffffff", "stroke-opacity": "0.55", "stroke-width": "0.32" }, faces);
+      mk("rect", { x: t.x + 1.6, y: t.y + 1.6, width: (t.w - 3.2) * 0.55, height: 0.5, rx: 0.25, fill: "#ffffff", opacity: "0.55" }, faces);
+    }
+  }
+
+  // ---------- countdown ----------
+  function tick() {
+    if (!state) return;
+    const next = parseDate(state.rounds && state.rounds.nextAt);
+    const interval = Number(state.settings && state.settings.intervalMs);
+    let text, progress = 0;
+    if (state.current && state.current.phase) { text = "Live"; progress = 100; }
+    else if (!next) text = state.token ? "--:--" : "Soon";
+    else {
+      const left = next.getTime() - Date.now();
+      if (interval > 0) progress = Math.min(Math.max(100 - (left / interval) * 100, 0), 100);
+      let s = Math.floor(left / 1000);
+      if (s <= 0) { text = "Now"; progress = 100; }
+      else {
+        const h = Math.floor(s / 3600); s %= 3600;
+        const m = Math.floor(s / 60), sec = s % 60;
+        const pad = (n) => String(n).padStart(2, "0");
+        text = h > 0 ? h + ":" + pad(m) + ":" + pad(sec) : pad(m) + ":" + pad(sec);
+      }
+    }
+    $("clock").textContent = text;
+    $("cycleBar").style.width = progress + "%";
+    $("lvClock").textContent = text;
+    $("lvBar").style.width = progress + "%";
+  }
+
+  // ---------- data ----------
+  function renderAll() {
+    renderBrand();
+    renderStats();
+    renderHow();
+    renderAlloc();
+    renderBasket();
+    tokenRows($("perToken"), (state.totals && state.totals.perToken) || {}, "Nothing airdropped yet.");
+    renderPhase();
+    renderHistory();
+    renderContract();
+    renderFacts();
+    renderLive();
+    tick();
+  }
+
+  let polling = false;
+  async function load() {
+    if (polling) return;
+    polling = true;
+    try {
+      const res = await fetch("/api/status", { headers: { Accept: "application/json" }, cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data || typeof data !== "object") throw new Error("bad body");
+      data.token = TOKEN;
+      if (data.contracts && typeof data.contracts === "object") data.contracts.token = TOKEN;
+      state = data;
+      $("banner").classList.remove("show");
+      renderAll();
+      $("updated").textContent = "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+    } catch (e) {
+      $("banner").classList.add("show");
+      if (!state) {
+        renderBrand();
+        $("legend").replaceChildren(el("li", { class: "muted", text: "Unavailable right now." }));
+        $("basketBody").replaceChildren(el("tr", null, [el("td", { colspan: "5", class: "empty", text: "Couldn't load the basket. Retrying…" })]));
+      }
+    } finally {
+      polling = false;
+    }
+  }
+
+  // ---------- wallet checker ----------
+  $("walletForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const addr = $("walletInput").value.trim();
+    const err = $("walletErr"), result = $("walletResult"), btn = $("walletBtn");
+    err.hidden = true; result.classList.remove("show");
+    if (!isAddr(addr)) { err.textContent = "That doesn't look like a wallet address. It should start with 0x and be 42 characters."; err.hidden = false; return; }
+    btn.disabled = true; btn.textContent = "Checking…";
+    try {
+      const res = await fetch("/api/wallet/" + encodeURIComponent(addr), { headers: { Accept: "application/json" }, cache: "no-store" });
+      let data = null;
+      try { data = await res.json(); } catch (_) { data = null; }
+      if (!res.ok) throw new Error((data && typeof data.error === "string" && data.error) || "The checker is unavailable right now. Try again in a moment.");
+      if (!data || typeof data !== "object") throw new Error("Unexpected response from the server.");
+      $("wBal").textContent = fmtUnits(data.balanceRaw ?? "0");
+      $("wMin").textContent = fmtUnits(data.eligibleMinRaw ?? (state && state.settings && state.settings.eligibleMinRaw) ?? "0");
+      const st = (state && state.settings) || {}, hold = Number(st.holdMinutes) || 0, live = st.ledgerSource === "live";
+      $("wStatus").replaceChildren(el("span", { class: "pill-s " + (data.eligible ? "ok" : data.pending ? "wait" : "no"), text: data.eligible ? "Eligible" : data.pending ? (live ? "Holding" : "Confirming") : "Not eligible" }));
+      tokenRows($("wReceived"), data.received && typeof data.received === "object" ? data.received : {}, "Nothing received yet.");
+      $("wNote").textContent = data.eligible
+        ? "This wallet is in the next airdrop. Its share follows its balance at payout time."
+        : data.pending ? (live ? "This wallet holds enough. It counts for airdrops once it has held for " + hold + " minutes." : "This wallet holds enough. It counts for airdrops once BOXA confirms the batch with its buy (usually within a few hours).")
+        : "Hold at least " + fmtUnits(data.eligibleMinRaw ?? "0") + " " + symbolOf() + " to be included in airdrops.";
+      result.classList.add("show");
+    } catch (e) {
+      err.textContent = e && e.message ? e.message : "Something went wrong.";
+      err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = "Check";
+    }
+  });
+
+  // ---------- wallet connect (read-only: asks the browser wallet for its address, never signs) ----------
+  const connectBtn = $("connectBtn");
+  if (window.ethereum && typeof window.ethereum.request === "function") connectBtn.hidden = false;
+  connectBtn.addEventListener("click", async () => {
+    try {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      if (Array.isArray(accounts) && isAddr(accounts[0])) {
+        $("walletInput").value = accounts[0];
+        connectBtn.textContent = short(accounts[0]);
+        $("walletForm").requestSubmit();
+      }
+    } catch (_) { /* the user closed the wallet prompt */ }
+  });
+
+  // ---------- misc UI ----------
+  $("moreBtn").addEventListener("click", () => { historyShown += HISTORY_PAGE; if (state) renderHistory(); });
+  const menuBtn = $("menuBtn"), navLinks = $("navLinks");
+  menuBtn.addEventListener("click", () => {
+    const open = navLinks.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(open));
+  });
+  navLinks.addEventListener("click", (e) => { if (e.target.tagName === "A") { navLinks.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); } });
+
+  // Fade sections in as they scroll into view.
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+  } else document.querySelectorAll(".reveal").forEach((n) => n.classList.add("in"));
+
+  drawHeroArt();
+  renderBrand();
+  load();
+  setInterval(load, POLL_MS);
+  setInterval(tick, 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+})();
+</script>
+</body>
+</html>
